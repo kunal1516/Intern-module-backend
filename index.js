@@ -2,12 +2,12 @@ const express =  require('express');
 
 const connectToMongo=require('./config/db');
 const app=express();
-const dotenv = require('body-parser')
+const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const signUp = require('./router/userRoute');
-const { notFound, errorHandler} = require('./middleware/errorHandler')
+const { notFound, errorHandler} = require('./middleware/')
 
 const port = process.env.PORT ||6000;
 
