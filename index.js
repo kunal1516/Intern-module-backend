@@ -6,7 +6,7 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const signup = require('./router/userRoute');
+const internRouter = require('./router/InternRoute');
 
 const { notFound, errorHandler} = require('./middleware/errorhandler')
 
@@ -32,7 +32,7 @@ app.get("/",(req,res)=>{
 })
 
 
-app.use('/api/user', signup)
+app.use('/api/intern', internRouter)
 
 app.use(notFound)
 app.use(errorHandler)
