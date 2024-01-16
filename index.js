@@ -6,7 +6,7 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const signUp = require('./router/userRoute');
+const alumniRouter = require('./router/alumniRoute');
 const { notFound, errorHandler} = require('./middleware/errorhandler')
 
 const port = process.env.PORT ||6000;
@@ -31,7 +31,7 @@ app.get("/",(req,res)=>{
 })
 
 
-app.use('/api/user', signUp)
+app.use('/api/alumni',alumniRouter)
 
 app.use(notFound)
 app.use(errorHandler)
