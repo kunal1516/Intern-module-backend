@@ -21,19 +21,18 @@ const signUp = asyncHandler(async (req , res) => {
 
 // login user
 
-const login = asyncHandler (async ( req, res) => {
+/*const login = asyncHandler (async ( req, res) => {
     const {email , password} = req.body
     const findUser = await User.findOne({email : email, password : password})
     if(findUser && (await findUser.isPasswordMatched(password))) 
     {
-        res.body("login successfull!!")
+        res.json({ message : "login successfull!!"})
     }
     else {
         throw new Error("invalid credentials")
     }
 
-})
-module.exports= {
-    signUp,
-    login
-}
+})*/
+module.exports=
+    signUp
+    //login

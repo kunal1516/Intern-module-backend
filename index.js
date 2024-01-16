@@ -1,12 +1,13 @@
 const express =  require('express');
-const router = express.Router()
+//const router = express.Router()
 const connectToMongo=require('./config/db');
 const app=express();
 const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const signUp = require('./router/userRoute');
+const signup = require('./router/userRoute');
+
 const { notFound, errorHandler} = require('./middleware/errorhandler')
 
 const port = process.env.PORT ||6000;
@@ -31,7 +32,7 @@ app.get("/",(req,res)=>{
 })
 
 
-app.use('/api/user', signUp)
+app.use('/api/user', signup)
 
 app.use(notFound)
 app.use(errorHandler)
