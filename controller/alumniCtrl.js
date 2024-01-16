@@ -13,6 +13,6 @@ const signUp = asyncHandler( async (req, res) => {
         res.json(newAlumni)
     } else {
         throw new Error("Invalid Credentials")
-    }
+}
 })
 module.exports= {signUp}

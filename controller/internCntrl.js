@@ -14,4 +14,19 @@ const signUp = asyncHandler( async (req, res) => {
     }
 })
 
-module.exports = signUp
+//login of Intern
+
+const login = asyncHandler ( async ( req, res) => {
+    const { email , password } = req.body
+    const findIntern = await Intern.findOne({email : email , password : password})
+    if (findIntern && (await findIntern.isPasswordMatched(password)) ) {
+        res.json("Login succefull!")
+    } else {
+        throw new Error(error)
+    }
+})
+
+module.exports = {
+    signUp,
+    login
+}
