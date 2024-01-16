@@ -11,13 +11,12 @@
     "mongoose": "^8.0.4",
     "morgan": "^1.10.0"
   },
-  "name": "intern-module-backend",
+  "name": "intern-module",
   "version": "1.0.0",
   "main": "index.js",
+  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "server": "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
