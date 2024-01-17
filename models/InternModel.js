@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
 
+const crypto = require('crypto')
+
 var internSchema = new mongoose.Schema({
     
     fullName:{

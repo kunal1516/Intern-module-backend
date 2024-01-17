@@ -1,8 +1,9 @@
 const Intern = require('../models/InternModel')
 const asyncHandler =  require('express-async-handler')
 const bcrypt = require('bcrypt')
-const generateToken = require('../config/jwtToken')
-const generateRefreshToken = require("../config/refreshToken")
+const { generateToken  } = require('../config/jwtToken')
+const{  generateRefreshToken } = require("../config/refreshToken")
+const jwt = require('jsonwebtoken');
 
 //signup of Intern 
 
