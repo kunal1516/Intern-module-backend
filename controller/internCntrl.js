@@ -26,7 +26,7 @@ const login = asyncHandler ( async ( req, res) => {
     if (findIntern && (await findIntern.isPasswordMatched(password)) ) {
        // res.json("login successful")
        const refreshToken = await generateRefreshToken(findIntern?._id)  //add after,,for refreshtoken
-        const updateIntern = await User.findByIdAndUpdate(findIntern.id, {
+        const updateIntern = await Intern.findByIdAndUpdate(findIntern.id, {
             refreshToken : refreshToken
         },
         {new:true}
@@ -39,7 +39,6 @@ const login = asyncHandler ( async ( req, res) => {
         res.json({
             _id: findIntern?._id,
             fullName: findIntern?.fullName,
-            
             email: findIntern?.email,
             contactNo: findIntern?.contactNo,
             collegeName : findIntern?.collegeName,
@@ -53,11 +52,73 @@ const login = asyncHandler ( async ( req, res) => {
     }
 })
 
+// get all intern
 
+const getAll = asyncHandler (async (req, res) => {
+    try {
+        const get = await Intern.find()
+        res.json(get)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
 
+//get intern by id
+
+const gets = asyncHandler ( async ( req, res) => {
+    const {id} = req.params
+    try {
+        const getI = await Intern.findById(id)
+        res.json(getI)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+// update a Intern
+
+const updateIntern = asyncHandler( async ( req, res) => {
+    const {id} = req.params
+    try {
+        const updated = await Intern.findByIdAndUpdate(id,
+            {
+                fullName : req?.body?.fullName,
+                email : req?.body?.email,
+                contactNo : req?.body?.contactNo,
+                collegeName : req?.body?.collegeName,
+                selectField : req?.body?.selectField,
+                selectYear : req?.body?.selectYear,
+                domainName : req?.body?.domainName,
+
+            },
+            { new : true})
+            res.json(updated)
+            
+       
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+// delete by id
+
+const deleteIntern  = asyncHandler( async ( req, res) => {
+    const {id} = req.params
+    try {
+        const deleted = await Intern.findByIdAndDelete(id)
+        res.json({message : "intern deleted" , deleted})
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+})
 
 
 module.exports = {
     signUp,
-    login
+    login,
+    getAll,
+    gets,
+    updateIntern,
+    deleteIntern
 }
