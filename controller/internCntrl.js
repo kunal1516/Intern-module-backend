@@ -113,6 +113,26 @@ const deleteIntern  = asyncHandler( async ( req, res) => {
     }
 })
 
+// password functionalities
+
+// update password
+
+const updatePassword = asyncHandler (async (req, res) => {
+   
+        const { id } = req.params
+        const { password } = req.body
+        
+        const updatedIntern = await Intern.findById(id)
+        if ( password ) {
+            Intern.password = password
+            const newPassword = await updatedIntern.save()
+            res.json(newPassword)
+        } else {
+            res.json(Intern)
+        }
+          
+ } );
+
 
 module.exports = {
     signUp,
@@ -120,5 +140,6 @@ module.exports = {
     getAll,
     gets,
     updateIntern,
-    deleteIntern
+    deleteIntern,
+    updatePassword
 }
