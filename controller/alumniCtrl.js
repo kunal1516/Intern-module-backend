@@ -57,6 +57,7 @@ const login = asyncHandler(async(req, res)=> {
     }
 });
 
+
 // Get a single alumni
 
 const getAlumni = asyncHandler(async(req,res) => {
@@ -126,6 +127,8 @@ const updateAlumni = asyncHandler(async(req,res)=>{
         
     }
 });
+
+
 
 module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni} 
 

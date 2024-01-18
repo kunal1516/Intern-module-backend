@@ -39,7 +39,6 @@ const login = asyncHandler ( async ( req, res) => {
         res.json({
             _id: findIntern?._id,
             fullName: findIntern?.fullName,
-            
             email: findIntern?.email,
             contactNo: findIntern?.contactNo,
             collegeName : findIntern?.collegeName,

@@ -13,7 +13,6 @@ const { notFound, errorHandler} = require('./middleware/errorhandler')
 
 const port = process.env.PORT ||6000;
 
-const bodyParser = require('body-parser');
 const cookieParser = require ( 'cookie-parser')
 const morgan = require('morgan')
 
