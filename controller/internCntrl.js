@@ -161,7 +161,7 @@ const updatePassword = asyncHandler (async (req, res) => {
           
  } );
 //next work handon to mr.kunal
-
+//forgot pass, logout function(block & unblock skip)
 module.exports = {
     signUp,
     login,
