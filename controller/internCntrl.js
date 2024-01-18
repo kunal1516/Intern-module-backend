@@ -113,6 +113,32 @@ const deleteIntern  = asyncHandler( async ( req, res) => {
     }
 })
 
+// handle refreshtOKEN
+
+const handleRefreshToken = asyncHandler ( async( req, res) => {
+    const cookie = req.cookies
+    console.log(cookie)
+
+    if(!cookie?.refreshToken) 
+    throw new Error ( "there is no refreshToken in cookies.")
+
+    const refreshToken = cookie.refreshToken
+    console.log(refreshToken)
+
+    const intern = await Intern.findOne( { refreshToken})
+    if(!intern)
+    throw new Error( "not matched")
+    //res.json(Intern)
+
+    jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
+        if (err || intern.id !== decoded.id) {
+            throw new Error ( "there is something wrong")
+        }
+       const accessToken = generateToken(Intern?._id) 
+       res.json({accessToken})
+    })
+});
+
 // password functionalities
 
 // update password
@@ -120,13 +146,15 @@ const deleteIntern  = asyncHandler( async ( req, res) => {
 const updatePassword = asyncHandler (async (req, res) => {
    
         const { id } = req.params
-        const { password } = req.body
+        const { password , confirmPassword } = req.body
+        
         
         const updatedIntern = await Intern.findById(id)
-        if ( password ) {
-            Intern.password = password
+        if ( password && confirmPassword) {
+            updatedIntern.password = password
+            updatedIntern.confirmPassword = confirmPassword;
             const newPassword = await updatedIntern.save()
-            res.json(newPassword)
+            res.json(newPassword)               //password is updated but not saved at login 
         } else {
             res.json(Intern)
         }
@@ -141,5 +169,6 @@ module.exports = {
     gets,
     updateIntern,
     deleteIntern,
+    handleRefreshToken,
     updatePassword
 }
