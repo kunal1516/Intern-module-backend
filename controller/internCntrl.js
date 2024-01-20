@@ -26,7 +26,7 @@ const login = asyncHandler ( async ( req, res) => {
     if (findIntern && (await findIntern.isPasswordMatched(password)) ) {
        // res.json("login successful")
        const refreshToken = await generateRefreshToken(findIntern?._id)  //add after,,for refreshtoken
-        const updateIntern = await Intern.findByIdAndUpdate(findIntern.id, {
+        const updatedIntern = await Intern.findByIdAndUpdate(findIntern.id, {
             refreshToken : refreshToken
         },
         {new:true}
@@ -162,6 +162,7 @@ const updatePassword = asyncHandler (async (req, res) => {
  } );
 //next work handon to mr.kunal
 //forgot pass, logout function(block & unblock skip)
+
 module.exports = {
     signUp,
     login,

@@ -39,12 +39,10 @@ var internSchema = new mongoose.Schema({
     password : {
         type : String,
         required : true,
-        unique : true,
         minlength : 6
     },
     newPassword : {
         type : String,
-        unique : true,
         minlength : 6
     },
     confirmPassword: {
@@ -56,7 +54,8 @@ var internSchema = new mongoose.Schema({
                 return value === this.password;
             },
             message: 'Passwords do not match',
-        }  }
+        }  },
+       
 })
 
 
