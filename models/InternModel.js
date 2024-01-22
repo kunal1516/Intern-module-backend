@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
 
@@ -11,8 +12,8 @@ var internSchema = new mongoose.Schema({
     },
     email : {
         type : String,
+        unique : true,
         required : true,
-        unique : true
     },
     contactNo : {
         type: Number,
@@ -39,10 +40,13 @@ var internSchema = new mongoose.Schema({
     password : {
         type : String,
         required : true,
+<<<<<<< Updated upstream
         minlength : 6
     },
     newPassword : {
         type : String,
+=======
+>>>>>>> Stashed changes
         minlength : 6
     },
     confirmPassword: {

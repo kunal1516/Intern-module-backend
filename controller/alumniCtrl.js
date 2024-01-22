@@ -3,8 +3,10 @@ const asyncHandler=require('express-async-handler');
 const bcrypt = require('bcrypt')
 const { generateToken  } = require('../config/jwtToken')
 const{  generateRefreshToken } = require("../config/refreshToken")
-const jwt = require('jsonwebtoken');
-const { findByIdAndUpdate } = require('../models/InternModel');
+const jwt = require("jsonwebtoken");
+
+//const validateMongoDbId = require("../utils/validateMongodbId");
+//const { findByIdAndUpdate } = require('../models/InternModel');
 //const router = express.Router();
 
 
@@ -56,6 +58,7 @@ const login = asyncHandler(async(req, res)=> {
         throw new Error("Invalid Credentials");
     }
 });
+
 
 
 // Get a single alumni
@@ -127,8 +130,73 @@ const updateAlumni = asyncHandler(async(req,res)=>{
         
     }
 });
+const updatePassword = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { password, confirmPassword } = req.body;
+    
+    if (id.toLowerCase() === 'logout') {
+        // Handle logout directly (if needed)
+        return res.status(200).json({ success: true, message: 'Logout successful' });
+    }
+
+    try {
+        const updatealumni = await Alumni.findById(id);
+        if (password && confirmPassword) {
+            updatealumni.password = password;
+            updatealumni.confirmPassword = confirmPassword;
+            const updatedPassword = await updatealumni.save();
+            res.json(updatedPassword);
+        } else {
+            res.json(updatealumni);
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+});
 
 
 
-module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni} 
+const handleRefreshToken = asyncHandler(async(req,res) => {
+    const cookie = req.cookies;
+    if(!cookie?.refreshToken) throw new Error ("No Refresh Token in Cookies");
+    const refreshToken = cookie.refreshToken;
+    console.log(refreshToken);
+    const alumni = await Alumni.findOne({refreshToken});
+    if(!alumni) throw new Error ("No Refresh token present in db or not matched");
+    jwt.verify(refreshToken,process.env.JWT_SECRET,(err, decoded) => {
+        if(err || alumni.id !== decoded.id){
+            throw new Error("There is something wrong with refresh token");
+        }
+        const accessToken = generateToken(Alumni.id)
+        res.json({accessToken});
+
+    });
+});
+
+const logout = asyncHandler(async (req, res) => {
+    try {
+        // Assuming you are using a refresh token stored in a cookie
+        const refreshToken = req.cookies.refreshToken;
+
+        // Clear the refresh token on the server side
+        await Alumni.findOneAndUpdate(
+            { refreshToken: refreshToken },
+            { $unset: { refreshToken: 1 } }
+        );
+
+        // Clear the refreshToken cookie on the client side
+        res.clearCookie('refreshToken');
+
+        res.status(200).json({ success: true, message: 'Logout successful' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+});
+
+
+
+
+
+module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout} 
 

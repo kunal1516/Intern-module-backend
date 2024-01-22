@@ -1,10 +1,10 @@
+
+const dotenv = require('dotenv').config();
 const express =  require('express');
 //const router = express.Router()
 const connectToMongo=require('./config/db');
 const app=express();
-const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
-require('dotenv').config();
 
 const internRouter = require('./router/InternRoute')
 const alumniRouter = require('./router/alumniRoute')
