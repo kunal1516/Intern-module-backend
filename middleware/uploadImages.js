@@ -1,42 +1,31 @@
-const multer = require('multer')
-const sharp = require('sharp')
-const path = require('path')
-const fs = require('fs')
+const multer = require("multer");
+const { v4 } = require("uuid");
+const { maxImageSize } = require("../config");
 
-//mult storage
+// Volunteer Image Storing Config
+const NewsImageStorage = multer.diskStorage({
+  filename: (req, file, cb) => {
+      const fileName = "-" + file.originalname.toLowerCase().split(" ").join("-");
+      cb(null, "News-" + v4() + fileName);
+  },
+  destination: (req, file, cb) => {
+      cb(null, "./public/images");
+  },
+});
 
-const multerStorage =  multer.diskStorage({
-    destination : function (req, file, cb) {
-        cb( null , path.join(__dirname, '../public/images'))
-    },
-    filename : function( req, file, cb) {
-        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9)
-        cb( null, file.fieldname + "-" + uniqueSuffix + ".jpeg")
-    }
-})
-
-//mult filter 
-
-const multerFilter = (req, file, cb) => {
-    if( file.mimetype.startsWith("image")) {
-        cb ( null, true)
-    } 
-    else {
-        cb( { 
-            message: "unsupported file format"
-        },
-        false)
-    }
-}
-
-//upload
-
-const uploadPhoto = multer ( {
-    storage : multerStorage,
-    fileFilter : multerFilter,
-    limits : { fieldSize : 2000000}
-})
+const saveNewsImage = multer({
+  storage: NewsImageStorage,
+  limits: { fileSize: maxImageSize },
+  fileFilter: (req, file, cb) => {
+      if (file.fieldname === "image" &&
+          (file.mimetype === "application/msword" || file.mimetype === "application/pdf")) {
+          cb(null, true);
+      } else {
+          cb(null, false);
+      }
+  },
+}).single('image');
 
 module.exports = {
-    uploadPhoto
-}
+  saveNewsImage,
+};

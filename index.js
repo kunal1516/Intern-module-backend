@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const internRouter = require('./router/InternRoute')
 const alumniRouter = require('./router/alumniRoute')
+const newsRouter = require('./router/newsRouter')
 
 const { notFound, errorHandler} = require('./middleware/errorhandler')
 
@@ -39,6 +40,7 @@ app.get("/",(req,res)=>{
 
 app.use('/api/intern', internRouter)
 app.use('/api/alumni' , alumniRouter)
+app.use('/api/news' , newsRouter)
 
 app.use(notFound)
 app.use(errorHandler)

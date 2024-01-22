@@ -154,7 +154,7 @@ const updatePassword = asyncHandler (async (req, res) => {
             updatedIntern.password = password
             updatedIntern.confirmPassword = confirmPassword;
             const newPassword = await updatedIntern.save()
-            res.json(newPassword)               //password is updated but not saved at login 
+            res.json(newPassword)           
         } else {
             res.json(Intern)
         }

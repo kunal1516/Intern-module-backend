@@ -14,9 +14,7 @@ var newsSchema = new mongoose.Schema({
     image : [],
     
     date:{
-        day : Number,
-        month : Number,
-        year : Number
+        type: Date,
      
     },
 });
