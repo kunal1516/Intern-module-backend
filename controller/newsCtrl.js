@@ -19,6 +19,7 @@ const createNews = asyncHandler(async (req, res) => {
             image,
         });
 
+       
 
         // Saving the new news to the database
         const finalNews = await newNews.save();
