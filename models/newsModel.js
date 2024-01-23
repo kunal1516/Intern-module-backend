@@ -9,13 +9,13 @@ var newsSchema = new mongoose.Schema({
     },
     description :{
         type:String,
-    
+        required : true
     },
     image : [],
     
     date:{
         type: Date,
-     
+        required : true
     },
 });
 

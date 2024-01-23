@@ -1,9 +1,8 @@
 const News = require('../models/newsModel')
 const asyncHandler = require('express-async-handler')
-const slugify = require('slugify')
 const fs = require('fs')
 const { saveNewsImage } = require('../middleware/uploadImages')
-const { Console } = require('console')
+
 // adding of news
 
 const createNews = asyncHandler(async (req, res) => {
@@ -48,6 +47,45 @@ const createNews = asyncHandler(async (req, res) => {
     }
 });
 
+// get all news
 
-module.exports = 
-    createNews
+const getsNews = asyncHandler(async (req, res) => {
+    try {
+        const gets = await News.find()
+        res.json(gets)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+// get a single news
+
+const getNews  = asyncHandler(async ( req, res) => {
+    const { id } = req.params
+    try {
+        const get = await News.findById(id)
+        res.json(get)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+// delete News
+
+const deleteNews = asyncHandler(async( req, res) => {
+    const { id } = req.params
+    try {
+       const deleted = await News.findByIdAndDelete(id)
+       res.json(deleted) 
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+
+module.exports = {
+    createNews,
+    getsNews,
+    getNews,
+    deleteNews
+ }
