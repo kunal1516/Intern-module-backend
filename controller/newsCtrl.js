@@ -20,7 +20,7 @@ const createNews = asyncHandler(async (req, res) => {
 
        
 
-        // Saving the new news to the database
+        //Saving the new news to the database
         const finalNews = await newNews.save();
         console.log('Image Data:', req.file);
 
@@ -88,4 +88,4 @@ module.exports = {
     getsNews,
     getNews,
     deleteNews
- }
+}
