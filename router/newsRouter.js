@@ -1,9 +1,9 @@
 const express = require('express')
 const { createNews , getsNews , getNews, deleteNews } = require('../controller/newsCtrl')
-const { addGallaryImages } = require('../middleware/uploadImages')
+const { savenewsImage } = require('../middleware/uploadImages')
 const router = express.Router()
 
-router.post('/add' , addGallaryImages, createNews)
+router.post('/add' , savenewsImage, createNews)
 
 router.get('/' , getsNews)
 
