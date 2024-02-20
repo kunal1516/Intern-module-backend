@@ -11,7 +11,10 @@ var newsSchema = new mongoose.Schema({
         type:String,
         required : true
     },
-    image : [],
+    image : {
+        type:String,
+        required : true
+    },
     
     date:{
         type: Date,

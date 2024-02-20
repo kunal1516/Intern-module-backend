@@ -1,21 +1,21 @@
 const News = require('../models/newsModel')
 const asyncHandler = require('express-async-handler')
 const fs = require('fs')
-const { saveNewsImage } = require('../middleware/uploadImages')
-
+//const { saveNewsImage } = require('../middleware/uploadImages')
+const path = require("path");
 // adding of news
 
 const createNews = asyncHandler(async (req, res) => {
     try {
-        const { image } = req.file;  // Destructuring the file object from the request
-        const { title, description, date } = req.body; // Destructuring other fields from the request body
-       
+        const { title, description, date } = req.body; 
+       const url= req.protocol + "://" + req.get("host")
         // Creating a new instance of the News model with the provided data
         const newNews = new News({
             title,
             description,
             date,
-            image,
+            image: url+ "/public/" + req.file.filename,
+            
         });
 
        

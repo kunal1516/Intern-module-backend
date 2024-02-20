@@ -17,12 +17,13 @@ const port = process.env.PORT ||6000;
 
 const cookieParser = require ( 'cookie-parser')
 const morgan = require('morgan')
-
+const path = require("path")
 // Middleware
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use("/public",express.static(path.join(__dirname,"public")))
 
 connectToMongo();
 
