@@ -40,13 +40,6 @@ var internSchema = new mongoose.Schema({
     password : {
         type : String,
         required : true,
-<<<<<<< Updated upstream
-        minlength : 6
-    },
-    newPassword : {
-        type : String,
-=======
->>>>>>> Stashed changes
         minlength : 6
     },
     confirmPassword: {
