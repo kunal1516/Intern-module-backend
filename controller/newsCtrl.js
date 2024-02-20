@@ -14,8 +14,12 @@ const createNews = asyncHandler(async (req, res) => {
             title,
             description,
             date,
+<<<<<<< Updated upstream
             image: url+ "/public/" + req.file.filename,
             
+=======
+            images,
+>>>>>>> Stashed changes
         });
 
        
