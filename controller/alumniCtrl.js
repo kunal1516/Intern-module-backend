@@ -194,9 +194,48 @@ const logout = asyncHandler(async (req, res) => {
     }
 });
 
+const forgotPasswordToken = asyncHandler(async(req,res)=>{
+    const {email} = req.body;
+    const alumni = await Alumni.findOne({email});
+    if(!alumni) throw new Error("Alumni not found with this email");
+    try {
+       const token = await alumni.createPasswordResetToken();
+       await alumni.save();
+       const resetURL = `Hi , Please follow this link to reset your password. this link is valid till 10 minutes from now. <a href="http://localhost:5000/api/user/reset-password/${token}'>Click Here</a>`;   
+       const data ={
+           to: email,
+           text:"Hey Alumni",
+           text:"Hey Alumni",
+           subject:"Forgot Password Link",
+           htm: resetURL,
+       };
+       sendEmail(data);
+       res.json(token);
+    } catch (error) {
+       throw new Error(error);
+    }
+    });
+   
+    const resetPassword = asyncHandler(async(req,res)=>{
+      const {password} = req.body;
+      const {token} = req.params;
+      const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+      const alumni = await Alumni.findOne({
+       passwordResetToken: hashedToken,
+       passwordResetExpires:{$gt:Date.now()},
+      });
+      if(!alumni) throw new Error("Token Expired, Plz try again later");
+      alumni.password = password;
+      alumni.passwordResetToken = undefined;
+      alumni.passwordResetExpires = undefined;
+      await alumni.save();
+      res.json(alumni);
+    });
+   
 
 
 
 
-module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout} 
+
+module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotPasswordToken , resetPassword} 
 
