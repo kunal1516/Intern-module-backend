@@ -1,9 +1,4 @@
-<<<<<<< Updated upstream
-const alumni = require('../models/alumniModel')
-
-=======
 const Alumni = require('../models/alumniModel')
->>>>>>> Stashed changes
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 
