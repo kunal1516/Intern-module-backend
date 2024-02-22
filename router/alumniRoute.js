@@ -1,11 +1,9 @@
 const express= require('express');
-const { signUp, login, getAlumni, getAllAlumni, deleteAlumni, updateAlumni, updatePassword, handleRefreshToken, logout, forgotPasswordToken, resetPassword } = require('../controller/alumniCtrl');
+const { signUp, login, getAlumni, getAllAlumni, deleteAlumni, updateAlumni, updatePassword, handleRefreshToken, logout} = require('../controller/alumniCtrl');
 const router = express.Router();
 
 
 router.post('/signup',signUp);
-router.post("/forgot-password-token", forgotPasswordToken);
-router.put("/reset-password/:token" , resetPassword);
 router.post('/login',login);
 router.get('/:id',getAlumni);
 router.get('/',getAllAlumni);

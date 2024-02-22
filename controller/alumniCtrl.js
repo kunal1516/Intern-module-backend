@@ -194,7 +194,7 @@ const logout = asyncHandler(async (req, res) => {
     }
 });
 
-const forgotPasswordToken = asyncHandler(async(req,res)=>{
+/*const forgotPasswordToken = asyncHandler(async(req,res)=>{
     const {email} = req.body;
     const alumni = await Alumni.findOne({email});
     if(!alumni) throw new Error("Alumni not found with this email");
@@ -230,12 +230,12 @@ const forgotPasswordToken = asyncHandler(async(req,res)=>{
       alumni.passwordResetExpires = undefined;
       await alumni.save();
       res.json(alumni);
-    });
+    });*/
    
 
 
 
 
 
-module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotPasswordToken , resetPassword} 
+module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout} 
 
