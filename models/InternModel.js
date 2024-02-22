@@ -29,7 +29,7 @@ var internSchema = new mongoose.Schema({
     },
     selectYear : {
         type : String,
-        enum : ['first year' , 'second year' , ' third year' , 'fourth year'],
+        enum : ['first year' , 'second year' , 'third year' , 'fourth year'],
         required : true
     },
     domainName : {
