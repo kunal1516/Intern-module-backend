@@ -44,7 +44,7 @@ var internSchema = new mongoose.Schema({
     },
     confirmPassword: {
         type: String,
-        required: true,
+        //required: true,
         validate: {
             validator: function (value) {
                 // Custom validation to check if confirmPassword matches password
