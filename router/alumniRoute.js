@@ -5,12 +5,12 @@ const router = express.Router();
 
 router.post('/signup',signUp);
 router.post('/login',login);
+router.post('/logout',logout);
 router.get('/:id',getAlumni);
 router.get('/',getAllAlumni);
 router.put('/:id',updateAlumni);
-router.put('/logout',logout);
+router.put('/refresh',handleRefreshToken);
 router.put('/:id',updatePassword);
-router.put('/',handleRefreshToken);
 router.delete('/:id',deleteAlumni);
 
 module.exports = router

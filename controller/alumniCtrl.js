@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const { generateToken  } = require('../config/jwtToken')
 const{  generateRefreshToken } = require("../config/refreshToken")
 const jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
 
 //const validateMongoDbId = require("../utils/validateMongodbId");
 //const { findByIdAndUpdate } = require('../models/InternModel');
@@ -130,81 +131,57 @@ const updateAlumni = asyncHandler(async(req,res)=>{
         
     }
 });
-// const updatePassword = asyncHandler(async (req, res) => {
-//     const { id } = req.params;
-//     const { password, confirmPassword } = req.body;
-    
-//     if (id.toLowerCase() === 'logout') {
-//         // Handle logout directly (if needed)
-//         return res.status(200).json({ success: true, message: 'Logout successful' });
-//     }
 
-//     try {
-//         const updatealumni = await Alumni.findById(id);
-//         if (password && confirmPassword) {
-//             updatealumni.password = password;
-//             updatealumni.confirmPassword = confirmPassword;
-//             const updatedPassword = await updatealumni.save();
-//             res.json(updatedPassword);
-//         } else {
-//             res.json(updatealumni);
-//         }
-//     } catch (error) {
-//         throw new Error(error);
-//     }
-// });
+const handleRefreshToken = asyncHandler ( async( req, res) => {
+    const cookie = req.cookies
+    console.log(cookie)
 
+    if(!cookie?.refreshToken) 
+    throw new Error ( "there is no refreshToken in cookies.")
 
+    const refreshToken = cookie.refreshToken
+    console.log(refreshToken)
 
+    const alumni = await Alumni.findOne( { refreshToken})
+    if(!alumni)
+    throw new Error( "not matched")
+    //res.json(Alumni)
 
-const updatePassword = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const { password, confirmPassword } = req.body;
-    
-    if (id.toLowerCase() === 'logout') {
-        // Handle logout directly (if needed)
-        return res.status(200).json({ success: true, message: 'Logout successful' });
-    }
-
-    try {
-        const updatealumni = await Alumni.findById(id);
-        if (password && confirmPassword) {
-            // Hash the new password
-            const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds
-
-            // Update alumni object with hashed password
-            updatealumni.password = hashedPassword;
-
-            // Save the updated alumni object
-            const updatedPassword = await updatealumni.save();
-            res.json(updatedPassword);
-        } else {
-            res.json(updatealumni);
+    jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
+        if (err || alumni.id !== decoded.id) {
+            throw new Error ( "there is something wrong")
         }
-    } catch (error) {
-        throw new Error(error);
-    }
+       const accessToken = generateToken(Alumni?._id) 
+       res.json({accessToken})
+    })
 });
 
 
+ const updatePassword = asyncHandler(async (req, res) => {
+     const { id } = req.params;
+     const { password, confirmPassword } = req.body;
+    
+     if (id.toLowerCase() === 'logout') {
+         // Handle logout directly (if needed)
+         return res.status(200).json({ success: true, message: 'Logout successful' });
+     }
+
+     try {
+         const updatealumni = await Alumni.findById(id);
+         if (password && confirmPassword) {
+             updatealumni.password = password;
+             updatealumni.confirmPassword = confirmPassword;
+             const updatedPassword = await updatealumni.save();
+             res.json(updatedPassword);
+         } else {
+             res.json(updatealumni);
+         }
+     } catch (error) {
+         throw new Error(error);
+     }
+ });
 
 
-const handleRefreshToken = asyncHandler(async(req,res) => {
-    const cookie = req.cookies;
-    if(!cookie?.refreshToken) throw new Error ("No Refresh Token in Cookies");
-    const refreshToken = cookie.refreshToken;
-    console.log(refreshToken);
-    const alumni = await Alumni.findOne({refreshToken});
-    if(!alumni) throw new Error ("No Refresh token present in db or not matched");
-    jwt.verify(refreshToken,process.env.JWT_SECRET,(err, decoded) => {
-        if(err || alumni.id !== decoded.id){
-            throw new Error("There is something wrong with refresh token");
-        }
-        const accessToken = generateToken(Alumni.id)
-        res.json({accessToken});
-
-    });
-});
 
 const logout = asyncHandler(async (req, res) => {
     try {
@@ -227,43 +204,6 @@ const logout = asyncHandler(async (req, res) => {
     }
 });
 
-/*const forgotPasswordToken = asyncHandler(async(req,res)=>{
-    const {email} = req.body;
-    const alumni = await Alumni.findOne({email});
-    if(!alumni) throw new Error("Alumni not found with this email");
-    try {
-       const token = await alumni.createPasswordResetToken();
-       await alumni.save();
-       const resetURL = `Hi , Please follow this link to reset your password. this link is valid till 10 minutes from now. <a href="http://localhost:5000/api/user/reset-password/${token}'>Click Here</a>`;   
-       const data ={
-           to: email,
-           text:"Hey Alumni",
-           text:"Hey Alumni",
-           subject:"Forgot Password Link",
-           htm: resetURL,
-       };
-       sendEmail(data);
-       res.json(token);
-    } catch (error) {
-       throw new Error(error);
-    }
-    });
-   
-    const resetPassword = asyncHandler(async(req,res)=>{
-      const {password} = req.body;
-      const {token} = req.params;
-      const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-      const alumni = await Alumni.findOne({
-       passwordResetToken: hashedToken,
-       passwordResetExpires:{$gt:Date.now()},
-      });
-      if(!alumni) throw new Error("Token Expired, Plz try again later");
-      alumni.password = password;
-      alumni.passwordResetToken = undefined;
-      alumni.passwordResetExpires = undefined;
-      await alumni.save();
-      res.json(alumni);
-    });*/
    
 
 
