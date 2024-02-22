@@ -130,6 +130,33 @@ const updateAlumni = asyncHandler(async(req,res)=>{
         
     }
 });
+// const updatePassword = asyncHandler(async (req, res) => {
+//     const { id } = req.params;
+//     const { password, confirmPassword } = req.body;
+    
+//     if (id.toLowerCase() === 'logout') {
+//         // Handle logout directly (if needed)
+//         return res.status(200).json({ success: true, message: 'Logout successful' });
+//     }
+
+//     try {
+//         const updatealumni = await Alumni.findById(id);
+//         if (password && confirmPassword) {
+//             updatealumni.password = password;
+//             updatealumni.confirmPassword = confirmPassword;
+//             const updatedPassword = await updatealumni.save();
+//             res.json(updatedPassword);
+//         } else {
+//             res.json(updatealumni);
+//         }
+//     } catch (error) {
+//         throw new Error(error);
+//     }
+// });
+
+
+
+
 const updatePassword = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { password, confirmPassword } = req.body;
@@ -142,8 +169,13 @@ const updatePassword = asyncHandler(async (req, res) => {
     try {
         const updatealumni = await Alumni.findById(id);
         if (password && confirmPassword) {
-            updatealumni.password = password;
-            updatealumni.confirmPassword = confirmPassword;
+            // Hash the new password
+            const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds
+
+            // Update alumni object with hashed password
+            updatealumni.password = hashedPassword;
+
+            // Save the updated alumni object
             const updatedPassword = await updatealumni.save();
             res.json(updatedPassword);
         } else {
@@ -153,6 +185,7 @@ const updatePassword = asyncHandler(async (req, res) => {
         throw new Error(error);
     }
 });
+
 
 
 
