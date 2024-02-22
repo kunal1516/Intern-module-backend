@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const { generateToken  } = require('../config/jwtToken')
 const{  generateRefreshToken } = require("../config/refreshToken")
 const jwt = require('jsonwebtoken');
+const nodemailer=require('nodemailer');
 
 //signup of Intern 
 
@@ -160,6 +161,85 @@ const updatePassword = asyncHandler (async (req, res) => {
         }
           
  } );
+
+ //forgot password
+
+ const forgotpassword= asyncHandler(async(req,res)=>{
+    const { email } = req.body;
+  
+    try {
+      // Check if the email exists in the database
+      const intern = await Intern.findOne({ email });
+  
+      if (!intern) {
+        return res.status(404).json({ error: "User not found." });
+      }
+  
+      // Generate a unique reset link
+      const resetLink = `http://localhost:4000/CreateNewPassword?email=${email}`;
+  
+      // Send the reset link via email
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "kunalshewale4444@gmail.com",
+          pass: "wzabpocutyelpjzp",
+        },
+      });
+  
+      const mailOptions = {
+        from: "kbtug21503@kbtcoe.org",
+        to: email,
+        subject: "EXP-Mart - Password Reset Link",
+        html: `
+          <p><strong>Dear user,</strong></p>
+          <p>Click the following link to reset your password:</p>
+          <p><a href="${resetLink}">Reset Password Link</a></p>
+        `,
+      };
+  
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+  
+        res
+          .status(200)
+          .json({ message: "Password reset link sent successfully." });
+      });
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
+  //resetpassword default
+  const resetpassword = asyncHandler( async (req, res) => {
+    const { email } = req.query;
+    res.render("resetpassword", { email });
+  });
+  
+  // Route to update the password
+  const resetnewpassword= asyncHandler(async (req, res) => {
+    const { email, newPassword } = req.body;
+  
+    try {
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+  
+      // Update the password for the user with the provided email
+      await Intern.findOneAndUpdate({ email }, { password: hashedPassword });
+  
+      res.status(200).json({ message: "Password reset successful." });
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
+  
+
 //next work handon to mr.kunal
 //forgot pass, logout function(block & unblock skip)
 
@@ -171,5 +251,8 @@ module.exports = {
     updateIntern,
     deleteIntern,
     handleRefreshToken,
-    updatePassword
+    updatePassword,
+    forgotpassword,
+    resetpassword,
+    resetnewpassword   
 }
