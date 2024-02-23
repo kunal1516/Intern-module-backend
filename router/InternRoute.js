@@ -1,14 +1,16 @@
 const express = require('express')
 const router = express.Router()
 
-const { signUp, login, getAll, gets, updateIntern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword } = require('../controller/internCntrl')
-
+const { signUp, login, getAll, gets, updateIntern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword,logout} = require('../controller/internCntrl')
+const {internMiddleware,isAdmin}=require('../middleware/internMiddleware')
 
 router.post('/signUp',signUp)
 
-router.post('/login' , login)
+router.post('/login' ,login)
 
 router.post('/forgot-password-token',forgotpassword)
+
+router.post('/logout',logout)
 
 router.get('/get' ,getAll)
 
