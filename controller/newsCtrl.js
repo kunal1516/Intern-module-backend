@@ -14,16 +14,9 @@ const createNews = asyncHandler(async (req, res) => {
             title,
             description,
             date,
-<<<<<<< Updated upstream
             image: url+ "/public/" + req.file.filename,
-            
-=======
-            images,
->>>>>>> Stashed changes
-        });
-
        
-
+    })
         //Saving the new news to the database
         const finalNews = await newNews.save();
         console.log('Image Data:', req.file);
@@ -86,10 +79,60 @@ const deleteNews = asyncHandler(async( req, res) => {
     }
 })
 
+// update news
+/*
+const updateNews = asyncHandler (async (req, res) => {
+    
+    const {id} = req.params
+    console.log('Request Body:', req.body);
+    try {
+        const updatedNew = await News.findByIdAndUpdate(id, 
+            {
+                title: req?.body?.title,
+                description: req?.body?.description,
+                date : req?.body?.date,
+                //image: req?.body?.image
+            }, {new:true} )
+            
+            res.json(updatedNew)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+*/
+
+const updateNews = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    console.log('Request Body:', req.body);
+    try {
+        const updateFields = {
+            title: req.body.title,
+            description: req.body.description,
+            date: req.body.date,
+        };
+
+        // Check if req.body.image exists before assigning
+        if (req.body.image) {
+            updateFields.image = req.body.image;
+        }
+
+        const updatedNew = await News.findByIdAndUpdate(
+            id,
+            updateFields,
+            { new: true }
+        );
+
+        res.json(updatedNew);
+        console.log('Updated News:', updatedNew);  //doesnt update a image
+    } catch (error) {
+        throw new Error(error);
+    }
+});
 
 module.exports = {
     createNews,
     getsNews,
     getNews,
-    deleteNews
+    deleteNews,
+    updateNews
 }
