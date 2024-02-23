@@ -41,10 +41,6 @@ var internSchema = new mongoose.Schema({
         required : true,
         minlength : 6
     },
-    newPassword : {
-        type : String,
-        minlength : 6
-    },
     confirmPassword: {
         type: String,
         //required: true,

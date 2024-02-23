@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post('/add' , savenewsImage, createNews)
 
-router.put('/:id' , updateNews)
+router.put('/:id' , savenewsImage, updateNews)
 
 router.get('/' , getsNews)
 

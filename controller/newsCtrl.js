@@ -101,33 +101,85 @@ const updateNews = asyncHandler (async (req, res) => {
 })
 */
 
-const updateNews = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    console.log('Request Body:', req.body);
-    try {
-        const updateFields = {
-            title: req.body.title,
-            description: req.body.description,
-            date: req.body.date,
-        };
+// const updateNews = asyncHandler(async (req, res) => {
+//     const { id } = req.params;
+//     console.log('Request Body:', req.body);
+//     try {
+//         const updateFields = {
+//             title: req.body.title,
+//             description: req.body.description,
+//             date: req.body.date,
+//         };
 
-        // Check if req.body.image exists before assigning
-        if (req.body.image) {
-            updateFields.image = req.body.image;
+//         // Check if req.body.image exists before assigning
+//         if (req.body.image) {
+//             updateFields.image = req.body.image;
+//         }
+
+//         const updatedNew = await News.findByIdAndUpdate(
+//             id,
+//             updateFields,
+//             { new: true }
+//         );
+
+//         res.json(updatedNew);
+//         console.log('Updated News:', updatedNew);  //doesnt update a image
+//     } catch (error) {
+//         throw new Error(error);
+//     }
+// });
+
+const updateNews = asyncHandler(async (req, res) => {
+    try {
+        const { title, description, date } = req.body;
+        const { id } = req.params; 
+        
+        // Check if the news exists
+        const existingNews = await News.findById(id);
+        if (!existingNews) {
+            return res.status(404).json({
+                success: false,
+                message: "News not found",
+            });
+        }
+        
+        // Update the news with the provided data
+        existingNews.title = title;
+        existingNews.description = description;
+        existingNews.date = date;
+
+        // Check if an image file is uploaded
+        if (req.file) {
+            const url = req.protocol + "://" + req.get("host");
+            existingNews.image = url + "/public/" + req.file.filename;
         }
 
-        const updatedNew = await News.findByIdAndUpdate(
-            id,
-            updateFields,
-            { new: true }
-        );
+        // Save the updated news to the database
+        const updatedNews = await existingNews.save();
 
-        res.json(updatedNew);
-        console.log('Updated News:', updatedNew);  //doesnt update a image
+        // Sending a successful response with the updated news details
+        res.status(200).json({
+            success: true,
+            message: "News updated successfully",
+            news: updatedNews,
+        });
     } catch (error) {
-        throw new Error(error);
+        // Handling errors
+        if (req.file && fs.existsSync(req.file.path)) {
+            // Deleting the uploaded file if an error occurs
+            fs.unlinkSync(req.file.path);
+        }
+
+        console.error(error.message);
+
+        // Sending an error response
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
     }
 });
+
 
 module.exports = {
     createNews,
