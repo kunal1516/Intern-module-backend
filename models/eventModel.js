@@ -12,7 +12,10 @@ var eventSchema = new mongoose.Schema({
         required:true,
         
     },
-    image: [ ],
+    image: {
+        type:String,
+        required : true
+    },
     startDate:{
         type:Date,
         required:true,

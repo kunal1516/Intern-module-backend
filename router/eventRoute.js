@@ -1,7 +1,9 @@
 const express = require('express')
-const addEvent = require('../controller/eventCntrl')
+const {addEvent , getEvent } = require('../controller/eventCntrl')
 const router = express.Router()
+const {saveEventImage} = require('../middleware/uploadImages')
 
-router.post('/add' , addEvent)
+router.post('/add' , saveEventImage, addEvent)
 
+router.get('/:id' , getEvent)
 module.exports = router
