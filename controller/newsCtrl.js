@@ -79,6 +79,7 @@ const deleteNews = asyncHandler(async( req, res) => {
     }
 })
 
+//update news
 const updateNews = asyncHandler(async (req, res) => {
     try {
         const { title, description, date } = req.body;

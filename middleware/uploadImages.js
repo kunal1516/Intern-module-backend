@@ -58,7 +58,35 @@ const saveEventImage = multer ( {
   }
 }).single("image")
 
+//for teamCtrl
+const teamImageStorage = multer.diskStorage({
+  filename: (req, file, cb) => {
+    const fileName = "-" + file.originalname.toLowerCase().split(" ").join("-");
+    cb(null, "news-" + v4() + fileName);
+  },
+  destination: (req, file, cb) => {
+    cb(null, "public");
+  },
+});
+const saveTeamImage = multer ( {
+  storage : teamImageStorage,
+  limits : { fleSize : maxImageSize },
+  fileFilter : ( req, file, cb) => {
+    if( 
+      file.mimetype === "image/png" ||
+      file.mimetype === "image/jprg" || 
+      file.mimetype === "image/jpeg" ||
+      file.mimetype === "pdf/pdf"
+    ) { cb ( null, true)}
+    else {
+      cb( null , false);
+      return null
+    }
+  }
+}).single("image")
+
 module.exports = {
 savenewsImage,
-saveEventImage
+saveEventImage,
+saveTeamImage
 }
