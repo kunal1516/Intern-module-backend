@@ -10,6 +10,8 @@ const internRouter = require('./router/InternRoute')
 const alumniRouter = require('./router/alumniRoute')
 const newsRouter = require('./router/newsRouter')
 const eventRouter = require('./router/eventRoute')
+const careerRouter = require('./router/careerRoute')
+const contactRouter = require('./router/contactRouter')
 
 const { notFound, errorHandler} = require('./middleware/errorhandler')
 
@@ -44,6 +46,8 @@ app.use('/api/intern', internRouter)
 app.use('/api/alumni' , alumniRouter)
 app.use('/api/news' , newsRouter)
 app.use('/api/event' , eventRouter)
+app.use('/api/career' , careerRouter)
+app.use('/api/contact' , contactRouter)
 
 app.use(notFound)
 app.use(errorHandler)
