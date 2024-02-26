@@ -44,9 +44,6 @@ const updateAchieve = asyncHandler ( async ( req, res) => {
         }
         existingAcheive.title = title
         existingAcheive.description = description
-        existingAcheive.startDate = startDate
-        existingAcheive.endDate = endDate
-        existingAcheive.location = location
 
         if(req.file) {
              const url = req.protocol + "://" + req.get("host")
