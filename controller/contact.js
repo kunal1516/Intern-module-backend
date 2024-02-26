@@ -38,7 +38,7 @@ const updateContact = asyncHandler (async (req,res) => {
 
 const getallContact = asyncHandler(async (req, res) => {
     try {
-        const gets = await Event.find()
+        const gets = await Contact.find()
         res.json(gets)
     } catch (error) {
         throw new Error(error)
@@ -48,7 +48,7 @@ const getallContact = asyncHandler(async (req, res) => {
 const getContact = asyncHandler(async ( req, res) => {
     const { id } = req.params
     try {
-        const get = await Event.findById( id ) 
+        const get = await Contact.findById( id ) 
         res.json(get)
     } catch (error) {
         throw new Error(error)
@@ -60,7 +60,7 @@ const getContact = asyncHandler(async ( req, res) => {
 const deleteContact = asyncHandler ( async ( req, res) => {
     const {id} = req.params
     try {
-        const deleted = await Event.findByIdAndDelete(id)
+        const deleted = await Contact.findByIdAndDelete(id)
         res.json({
             success:true,
             message : "deleted succesfully!",
