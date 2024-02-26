@@ -76,7 +76,7 @@ const saveTeamImage = multer ( {
       file.mimetype === "image/png" ||
       file.mimetype === "image/jprg" || 
       file.mimetype === "image/jpeg" ||
-      file.mimetype === "pdf/pdf"
+      //file.mimetype === "pdf/pdf"
     ) { cb ( null, true)}
     else {
       cb( null , false);
