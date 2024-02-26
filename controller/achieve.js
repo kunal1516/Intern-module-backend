@@ -1,12 +1,15 @@
 const achievementModel = require('../models/achievementModel')
 const Acheive = require('../models/achievementModel')
 const asyncHandler = require('express-async-handler')
+const fs=require('fs')
 
 // adding achievement
 
 const addAcheive = asyncHandler (async (req, res) => {
     const { title, description} = req.body
     try {
+        const { title, description} = req.body
+        const url = req.protocol + "://" + req.get("host")
         const add = new Acheive ( {
             title, description,
             image  : url + "/public/" + req.file.filename, 
@@ -14,7 +17,16 @@ const addAcheive = asyncHandler (async (req, res) => {
         const finalAdd = await add.save()
         res.json(finalAdd)
     } catch (error) {
-       throw new Error(error) 
+        if( req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path)
+       }
+       console.error(error.message)
+       res.json({
+           success:false,
+           message : "Internal server error"
+
+       }
+       )
     }
 })
 

@@ -1,10 +1,11 @@
 const express = require('express')
 const { addAcheive, updateAchieve, getAcheievement, getallAcheivement, deleteAcheivement } = require('../controller/achieve')
+const { saveAcheiveImage } = require('../middleware/uploadImages')
 const router = express.Router()
 
 
-router.post('/add' , addAcheive)
-router.put('/:id' , updateAchieve)
+router.post('/add' , saveAcheiveImage , addAcheive)
+router.put('/:id' , saveAcheiveImage, updateAchieve)
 router.get('/:id' , getAcheievement)
 router.get('/' , getallAcheivement)
 router.delete('/:id' , deleteAcheivement)
