@@ -80,6 +80,7 @@ const swaggerOptions = {
 //   ii
   const swaggerSpec = swaggerJSDoc(swaggerOptions);
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/contact',contactRouter)
 
 app.use(notFound)
 app.use(errorHandler)
