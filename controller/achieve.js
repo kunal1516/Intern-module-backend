@@ -1,11 +1,7 @@
-
 const Acheive = require('../models/achievementModel')
 const asyncHandler = require('express-async-handler')
-<<<<<<< HEAD
 const fs = require('fs')
-=======
-const fs=require('fs')
->>>>>>> e282394c6c6d59bbe0497bd14f7370ec7ff395b4
+
 
 // adding achievement
 
@@ -13,11 +9,8 @@ const addAcheive = asyncHandler (async (req, res) => {
     
     try {
         const { title, description} = req.body
-<<<<<<< Updated upstream
         const url = req.protocol + "://" + req.get("host")
-=======
-    const url = req.protocol + "://" + req.get("host")
->>>>>>> Stashed changes
+   
         const add = new Acheive ( {
             title, description,
             image  : url + "/public/" + req.file.filename, 
@@ -52,10 +45,7 @@ const updateAchieve = asyncHandler ( async ( req, res) => {
         }
         existingAcheive.title = title
         existingAcheive.description = description
-<<<<<<< Updated upstream
-=======
        
->>>>>>> Stashed changes
 
         if(req.file) {
              const url = req.protocol + "://" + req.get("host")
