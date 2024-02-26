@@ -6,6 +6,9 @@ const connectToMongo=require('./config/db');
 const app=express();
 const bodyParser = require('body-parser');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+
 const internRouter = require('./router/InternRoute')
 const alumniRouter = require('./router/alumniRoute')
 const newsRouter = require('./router/newsRouter')
@@ -52,6 +55,31 @@ app.use('/api/team' , teamRouter)
 app.use('/api/career' , careerRouter)
 app.use('/api/contact' , contactRouter)
 app.use('/api/acheive' , AcheiveRouter)
+
+//Swagger setup
+const swaggerOptions = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Node JS API Project for mongodb',
+        version: '1.0.0',
+      },
+      servers: [
+        {
+          url: `http://localhost:${PORT}`,
+        },
+      ],
+    },
+    apis: [
+      './routes/alumniRoute.js',
+      './routes/internRoute.js',
+      './routes/eventRoute.js',
+      './routes/newsRouter.js',
+    ],
+  };
+  
+  const swaggerSpec = swaggerJSDoc(swaggerOptions);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(notFound)
 app.use(errorHandler)

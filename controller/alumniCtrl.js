@@ -132,59 +132,62 @@ const updateAlumni = asyncHandler(async(req,res)=>{
     }
 });
 
-const handleRefreshToken = asyncHandler ( async( req, res) => {
-    const cookie = req.cookies
-    console.log(cookie)
+const handleRefreshToken = asyncHandler(async (req, res) => {
+    try {
+        const { refreshToken } = req.cookies;
 
-    if(!cookie?.refreshToken) 
-    throw new Error ( "there is no refreshToken in cookies.")
-
-    const refreshToken = cookie.refreshToken
-    console.log(refreshToken)
-
-    const alumni = await Alumni.findOne( { refreshToken})
-    if(!alumni)
-    throw new Error( "not matched")
-    //res.json(Alumni)
-
-    jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
-        if (err || alumni.id !== decoded.id) {
-            throw new Error ( "there is something wrong")
+        if (!refreshToken) {
+            return res.status(400).json({ error: "No refreshToken found in cookies." });
         }
-       const accessToken = generateToken(Alumni?._id) 
-       res.json({accessToken})
-    })
+
+        const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+        console.log("Decoded JWT:", decoded);
+
+        const alumni = await Alumni.findOne({ refreshToken });
+        console.log("Retrieved Alumni:", alumni);
+
+        if (!alumni) {
+            return res.status(400).json({ error: "Refresh token not matched with any user." });
+        }
+
+        if (String(alumni._id) !== decoded.id) {
+            return res.status(400).json({ error: "Invalid refresh token: Alumni ID mismatch." });
+        }
+
+        const accessToken = generateToken(alumni._id);
+        res.json({ accessToken });
+    } catch (error) {
+        console.error("Error handling refresh token:", error.message);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
 });
 
 
- const updatePassword = asyncHandler(async (req, res) => {
-     const { id } = req.params;
-     const { password, confirmPassword } = req.body;
+
+const updatePassword = asyncHandler (async (req, res) => {
+   
+    const { id } = req.params
+    const { password , confirmPassword } = req.body
     
-     if (id.toLowerCase() === 'logout') {
-         // Handle logout directly (if needed)
-         return res.status(200).json({ success: true, message: 'Logout successful' });
-     }
-
-     try {
-         const updatealumni = await Alumni.findById(id);
-         if (password && confirmPassword) {
-             updatealumni.password = password;
-             updatealumni.confirmPassword = confirmPassword;
-             const updatedPassword = await updatealumni.save();
-             res.json(updatedPassword);
-         } else {
-             res.json(updatealumni);
-         }
-     } catch (error) {
-         throw new Error(error);
-     }
- });
-
-
+    
+    const updatedAlumni = await Alumni.findById(id)
+    if ( password && confirmPassword) {
+        updatedAlumni.password = password
+        updatedAlumni.confirmPassword = confirmPassword;
+        const newPassword = await updatedAlumni.save()
+        res.json(newPassword)           
+    } else {
+        res.json(Alumni)
+    }
+      
+});
 
 const logout = asyncHandler(async (req, res) => {
+    const{email}=req.body;
     try {
+        const alumni=await Alumni.findOne({email})
+        if(!alumni){return
+        res.status(404).json({error:"Alumni not found"})}
         // Assuming you are using a refresh token stored in a cookie
         const refreshToken = req.cookies.refreshToken;
 
@@ -204,11 +207,87 @@ const logout = asyncHandler(async (req, res) => {
     }
 });
 
-   
+const forgotpassword= asyncHandler(async(req,res)=>{
+    const { email } = req.body;
+  
+    try {
+      // Check if the email exists in the database
+      const alumni = await Alumni.findOne({ email });
+  
+      if (!alumni) {
+        return res.status(404).json({ error: "User not found." });
+      }
+  
+      // Generate a unique reset link
+      const resetLink = `http://localhost:4000/CreateNewPassword?email=${email}`;
+  
+      // Send the reset link via email
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "snehasp2004@gmail.com",
+          pass: "vkvqfhycugdxzphf",
+        },
+      });
+  
+      const mailOptions = {
+        from: "kbtug21373@kbtcoe.org",
+        to: email,
+        subject: "EXP-Mart - Password Reset Link",
+        html: `
+          <p><strong>Dear user,</strong></p>
+          <p>Click the following link to reset your password:</p>
+          <p><a href="${resetLink}">Reset Password Link</a></p>
+        `,
+      };
+  
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+  
+        res
+          .status(200)
+          .json({ message: "Password reset link sent successfully." });
+      });
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });   
+
+  //resetpassword default
+  const resetpassword = asyncHandler( async (req, res) => {
+    const { email } = req.query;
+    res.render("resetpassword", { email });
+  });
+  
+  // Route to update the password
+  const resetnewpassword = asyncHandler(async (req, res) => {
+    const { email, newPassword } = req.body;
+  
+    try {
+        // Check if newPassword is provided
+        if (!newPassword) {
+            return res.status(400).json({ error: "New password is required" });
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+  
+        // Update the password for the user with the provided email
+        await Alumni.findOneAndUpdate({ email }, { $set: { password: hashedPassword } });
+  
+        res.status(200).json({ message: "Password reset successful." });
+    } catch (error) {
+        console.error("Error resetting password:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
 
 
 
 
-
-module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout} 
+module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotpassword , resetpassword , resetnewpassword} 
 
