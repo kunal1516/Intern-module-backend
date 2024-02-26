@@ -10,11 +10,14 @@ const fs=require('fs')
 // adding achievement
 
 const addAcheive = asyncHandler (async (req, res) => {
-    const { title, description} = req.body
-    const url = req.protocol + "://" + req.get("host")
+    
     try {
         const { title, description} = req.body
+<<<<<<< Updated upstream
         const url = req.protocol + "://" + req.get("host")
+=======
+    const url = req.protocol + "://" + req.get("host")
+>>>>>>> Stashed changes
         const add = new Acheive ( {
             title, description,
             image  : url + "/public/" + req.file.filename, 
@@ -49,6 +52,10 @@ const updateAchieve = asyncHandler ( async ( req, res) => {
         }
         existingAcheive.title = title
         existingAcheive.description = description
+<<<<<<< Updated upstream
+=======
+       
+>>>>>>> Stashed changes
 
         if(req.file) {
              const url = req.protocol + "://" + req.get("host")
