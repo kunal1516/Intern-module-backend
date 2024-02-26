@@ -1,11 +1,13 @@
-const achievementModel = require('../models/achievementModel')
+
 const Acheive = require('../models/achievementModel')
 const asyncHandler = require('express-async-handler')
+const fs = require('fs')
 
 // adding achievement
 
 const addAcheive = asyncHandler (async (req, res) => {
     const { title, description} = req.body
+    const url = req.protocol + "://" + req.get("host")
     try {
         const add = new Acheive ( {
             title, description,
