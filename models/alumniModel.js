@@ -36,12 +36,10 @@ var alumniSchema = new mongoose.Schema({
     password : {
         type : String,
         required : true,
-        unique : true,
-        minlength : 6
     },
     confirmPassword: {
         type: String,
-        required: true,
+       // required: true,
         validate: {
             validator: function (value) {
                 // Custom validation to check if confirmPassword matches password
@@ -71,7 +69,8 @@ alumniSchema.methods.createPasswordResetToken = async function () {
     .update(resetToken)
     .digest('hex')
     this.passwordResetExpires = Date.now() + 30 *60 * 1000  //10 mins
-    return resetToken
+    return resetToken
 }
 
-module.exports = mongoose.model('alumni', alumniSchema);
+
+module.exports = mongoose.model('Alumni', alumniSchema);

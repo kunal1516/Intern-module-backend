@@ -1,5 +1,4 @@
-const alumni = require('../models/alumniModel')
-
+const Alumni = require('../models/alumniModel')
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 
