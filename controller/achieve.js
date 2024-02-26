@@ -4,7 +4,6 @@ const asyncHandler = require('express-async-handler')
 const fs=require('fs')
 
 // adding achievement
-
 const addAcheive = asyncHandler (async (req, res) => {
     const { title, description} = req.body
     try {
@@ -30,9 +29,8 @@ const addAcheive = asyncHandler (async (req, res) => {
     }
 })
 
+
 // update 
-
-
 const updateAchieve = asyncHandler ( async ( req, res) => {
     try {
         const { title, description} = req.body
@@ -65,7 +63,6 @@ const updateAchieve = asyncHandler ( async ( req, res) => {
 })
 
 //get all acheievemnts
-
 const getallAcheivement = asyncHandler(async (req, res) => {
     try {
         const gets = await Acheive.find()
@@ -99,6 +96,18 @@ const deleteAcheivement = asyncHandler ( async ( req, res) => {
         throw new Error(error)
     }
 })
+
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalAcheiveCount = await Acheive.countDocuments();
+        res.json({ count: totalAcheiveCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 module.exports = {
- addAcheive , updateAchieve, getAcheievement, getallAcheivement, deleteAcheivement
+ addAcheive , updateAchieve, getAcheievement, getallAcheivement, deleteAcheivement, dashboard
 }
