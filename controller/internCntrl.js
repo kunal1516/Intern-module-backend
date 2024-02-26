@@ -190,7 +190,7 @@ const updatePassword = asyncHandler (async (req, res) => {
       const mailOptions = {
         from: "kbtug21503@kbtcoe.org",
         to: email,
-        subject: "EXP-Mart - Password Reset Link",
+        subject: "Intern-module - Password Reset Link",
         html: `
           <p><strong>Dear user,</strong></p>
           <p>Click the following link to reset your password:</p>
@@ -238,10 +238,53 @@ const updatePassword = asyncHandler (async (req, res) => {
     }
   });
 
-  
+  //logout functionality
+  /*const logout=asyncHandler(async(req,res)=>{
+    const cookie=req.cookies;
+    if(!cookie?.refreshToken)throw new Error("No refresh Token in Cookies");
+    const refreshToken=cookie.refreshToken;
+    const intern=await Intern.findOne({refreshToken});
+    if(!intern){
+        res.clearCookie("refreshToken",{
+            httpOnly:true,
+            secure:true,
+        });
+        return res.sendStatus(204);  //forbidden
+    } 
+    await Intern.findOneAndUpdate({ refreshToken: refreshToken }, {
+        $set: { refreshToken: "" },
+    });
+    
+    res.clearCookie("refreshToken",{
+        httpOnly:true,
+        secure:true,
+    });    
+    res.sendStatus(204);  //forbidden     
+});*/
 
-//next work handon to mr.kunal
-//forgot pass, logout function(block & unblock skip)
+const logout = asyncHandler(async (req, res) => {
+  const {email}=req.body;
+  try {
+      const intern=await Intern.findOne({email})
+      if(!intern){return res.status(404).json({error:"Intern not found"})}
+      // Assuming you are using a refresh token stored in a cookie
+      const refreshToken = req.cookies.refreshToken;
+
+      // Clear the refresh token on the server side
+      await Intern.findOneAndUpdate(
+          { refreshToken: refreshToken },
+          { $unset: { refreshToken: 1 } }
+      );
+
+      // Clear the refreshToken cookie on the client side
+      res.clearCookie('refreshToken');
+
+      res.status(200).json({ success: true, message: 'Logout successful' });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
 
 module.exports = {
     signUp,
@@ -254,5 +297,6 @@ module.exports = {
     updatePassword,
     forgotpassword,
     resetpassword,
-    resetnewpassword   
+    resetnewpassword,
+    logout   
 }

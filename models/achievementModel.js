@@ -1,8 +1,7 @@
 const mongoose = require('mongoose'); // Erase if already required
 
 // Declare the Schema of the Mongo model
-var eventSchema = new mongoose.Schema({
-  
+var acheivementSchema = new mongoose.Schema({
     title:{
         type:String,
         required:true,
@@ -11,25 +10,13 @@ var eventSchema = new mongoose.Schema({
     description:{
         type:String,
         required:true,
-        
     },
-    image: {
+    image:{
         type:String,
-        required : true
-    },
-    startDate:{
-        type:Date,
         required:true,
     },
-    endDate:{
-        type:Date,
-        required:true,
-    },
-    location:{
-        type: String,
-        required:true,
-    },
+   
 });
 
 //Export the model
-module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.model('Acheive', acheivementSchema);
