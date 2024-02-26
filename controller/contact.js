@@ -33,6 +33,47 @@ const updateContact = asyncHandler (async (req,res) => {
         throw new Error(error)
     }
 })
-module.exports = {
 
+//get all contacts
+
+const getallContact = asyncHandler(async (req, res) => {
+    try {
+        const gets = await Event.find()
+        res.json(gets)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+// get a  single event
+const getContact = asyncHandler(async ( req, res) => {
+    const { id } = req.params
+    try {
+        const get = await Event.findById( id ) 
+        res.json(get)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+// delete a event 
+
+const deleteContact = asyncHandler ( async ( req, res) => {
+    const {id} = req.params
+    try {
+        const deleted = await Event.findByIdAndDelete(id)
+        res.json({
+            success:true,
+            message : "deleted succesfully!",
+            event :  deleted} )
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+ 
+module.exports = {
+ addContact,
+ updateContact, 
+ getContact,
+ getallContact,
+ deleteContact
 }
