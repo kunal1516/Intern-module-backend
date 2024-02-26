@@ -44,7 +44,7 @@ const getallContact = asyncHandler(async (req, res) => {
         throw new Error(error)
     }
 })
-// get a  single event
+// get a  single contact
 const getContact = asyncHandler(async ( req, res) => {
     const { id } = req.params
     try {
@@ -55,7 +55,7 @@ const getContact = asyncHandler(async ( req, res) => {
     }
 })
 
-// delete a event 
+// delete a contact 
 
 const deleteContact = asyncHandler ( async ( req, res) => {
     const {id} = req.params
@@ -64,7 +64,7 @@ const deleteContact = asyncHandler ( async ( req, res) => {
         res.json({
             success:true,
             message : "deleted succesfully!",
-            event :  deleted} )
+            contact :  deleted} )
     } catch (error) {
         throw new Error(error)
     }

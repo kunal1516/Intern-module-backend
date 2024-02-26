@@ -1,7 +1,11 @@
 
 const Acheive = require('../models/achievementModel')
 const asyncHandler = require('express-async-handler')
+<<<<<<< HEAD
 const fs = require('fs')
+=======
+const fs=require('fs')
+>>>>>>> e282394c6c6d59bbe0497bd14f7370ec7ff395b4
 
 // adding achievement
 
@@ -9,6 +13,8 @@ const addAcheive = asyncHandler (async (req, res) => {
     const { title, description} = req.body
     const url = req.protocol + "://" + req.get("host")
     try {
+        const { title, description} = req.body
+        const url = req.protocol + "://" + req.get("host")
         const add = new Acheive ( {
             title, description,
             image  : url + "/public/" + req.file.filename, 
@@ -16,7 +22,16 @@ const addAcheive = asyncHandler (async (req, res) => {
         const finalAdd = await add.save()
         res.json(finalAdd)
     } catch (error) {
-       throw new Error(error) 
+        if( req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path)
+       }
+       console.error(error.message)
+       res.json({
+           success:false,
+           message : "Internal server error"
+
+       }
+       )
     }
 })
 
@@ -34,9 +49,6 @@ const updateAchieve = asyncHandler ( async ( req, res) => {
         }
         existingAcheive.title = title
         existingAcheive.description = description
-        existingAcheive.startDate = startDate
-        existingAcheive.endDate = endDate
-        existingAcheive.location = location
 
         if(req.file) {
              const url = req.protocol + "://" + req.get("host")
