@@ -128,7 +128,18 @@ const updateAlumni = asyncHandler(async(req,res)=>{
     }
 });
 
+//dashboard
 
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalSignUpsCount = await Alumni.countDocuments();
+        res.json({ count: totalSignUpsCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
-module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni} 
+module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni, dashboard} 
 
