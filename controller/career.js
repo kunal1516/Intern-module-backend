@@ -71,10 +71,24 @@ const deleteCareer = asyncHandler (async (req, res) => {
         throw new Error(error)
     }
 })
+
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalCareerCount = await Career.countDocuments();
+        res.json({ count: totalCareerCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 module.exports = {
 addCareer,
 updateCareer,
 getAll,
 getCareer,
-deleteCareer
+deleteCareer,
+dashboard
 }

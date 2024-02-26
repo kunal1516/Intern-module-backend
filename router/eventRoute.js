@@ -1,5 +1,5 @@
 const express = require('express')
-const {addEvent , getEvent , getallEvent, deleteEvent, updateEvent } = require('../controller/eventCntrl')
+const {addEvent , getEvent , getallEvent, deleteEvent, updateEvent, dashboard } = require('../controller/eventCntrl')
 const router = express.Router()
 const {saveEventImage} = require('../middleware/uploadImages')
 
@@ -10,6 +10,8 @@ router.put("/:id" ,  saveEventImage, updateEvent)
 router.get('/:id' , getEvent)
 
 router.get('/' , getallEvent)
+
+router.get('/events/count',dashboard)
 
 router.delete ('/:id' , deleteEvent)
 

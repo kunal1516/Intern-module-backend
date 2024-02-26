@@ -69,11 +69,24 @@ const deleteContact = asyncHandler ( async ( req, res) => {
         throw new Error(error)
     }
 })
- 
+
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalContactCount = await Contact.countDocuments();
+        res.json({ count: totalContactCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 module.exports = {
  addContact,
  updateContact, 
  getContact,
  getallContact,
- deleteContact
+ deleteContact,
+ dashboard
 }

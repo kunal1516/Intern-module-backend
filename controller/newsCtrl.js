@@ -131,11 +131,23 @@ const updateNews = asyncHandler(async (req, res) => {
     }
 });
 
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalNewsCount = await News.countDocuments();
+        res.json({ count: totalNewsCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 module.exports = {
     createNews,
     getsNews,
     getNews,
     deleteNews,
-    updateNews
+    updateNews,
+    dashboard
 }
