@@ -20,7 +20,7 @@ const AcheiveRouter=require('./router/acheiveRoute')
 
 const { notFound, errorHandler} = require('./middleware/errorhandler')
 
-const port = process.env.PORT ||6000;
+const port = process.env.PORT || 4000;
 
 const cookieParser = require ( 'cookie-parser')
 const morgan = require('morgan')
@@ -71,13 +71,13 @@ const swaggerOptions = {
       ],
     },
     apis: [
-      './routes/alumniRoute.js',
-      './routes/internRoute.js',
-      './routes/eventRoute.js',
-      './routes/newsRouter.js',
+      './router/alumniRoute.js',
+      './router/internRoute.js',
+      './router/eventRoute.js',
+      './router/newsRouter.js',
     ],
   };
-  
+//   ii
   const swaggerSpec = swaggerJSDoc(swaggerOptions);
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
