@@ -114,10 +114,24 @@ const updateTeam = asyncHandler(async (req, res) => {
         });
     }
 });
+
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalTeamCount = await Team.countDocuments();
+        res.json({ count: totalTeamCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 module.exports={
     addTeam,
     getTeam,
     getAll,
     deleteTeam,
-    updateTeam
+    updateTeam,
+    dashboard
 }

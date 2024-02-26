@@ -286,6 +286,18 @@ const logout = asyncHandler(async (req, res) => {
   }
 });
 
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalInternCount = await Intern.countDocuments();
+        res.json({ count: totalInternCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 module.exports = {
     signUp,
     login,
@@ -298,5 +310,6 @@ module.exports = {
     forgotpassword,
     resetpassword,
     resetnewpassword,
-    logout   
+    logout,
+    dashboard
 }

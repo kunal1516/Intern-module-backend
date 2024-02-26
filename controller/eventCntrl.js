@@ -108,10 +108,23 @@ const updateEvent = asyncHandler ( async ( req, res) => {
     }
 })
 
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalEventCount = await Event.countDocuments();
+        res.json({ count: totalEventCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 module.exports =  {
     addEvent,
     getEvent,
     getallEvent,
     deleteEvent,
-    updateEvent
+    updateEvent,
+    dashboard
 }
