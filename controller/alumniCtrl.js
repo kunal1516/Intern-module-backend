@@ -297,5 +297,19 @@ const dashboard = asyncHandler( async (req, res) => {
     }
 });
 
-module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotpassword , resetpassword , resetnewpassword,dashboard} 
+
+// token authorization
+const getalumni = asyncHandler(  async (req, res) => {
+
+    try {
+      const alumniId = req.alumni.id;
+      const alumni = await Alumni.findById(alumniId).select("-password")
+      res.send(alumni)
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  })
+
+module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotpassword , resetpassword , resetnewpassword,dashboard, getalumni} 
 

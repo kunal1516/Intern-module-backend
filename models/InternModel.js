@@ -52,6 +52,10 @@ var internSchema = new mongoose.Schema({
             },
             message: 'Passwords do not match',
         }  },
+        image : {
+            type : String,
+            require : true
+        }
        
 })
 

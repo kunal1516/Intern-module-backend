@@ -9,7 +9,7 @@ const alumniMiddleware =asyncHandler(async(req,res,next)=>{
         try {
             if(token){
                 const decoded=jwt.verify(token,process.env.JWT_SECRET);
-                const alumni =await alumni.findById(decoded?.id);
+                const alumni =await Alumni.findById(decoded?.id);
                 req.alumni = alumni;
                 next();
             }
@@ -27,7 +27,7 @@ const alumniMiddleware =asyncHandler(async(req,res,next)=>{
   const isAdmin=asyncHandler(async(req,res,next)=>{
     console.log(req.alumni);
     const {email} = req.alumni;
-    const adminAlumni = await User.findOne({email});
+    const adminAlumni = await Alumni.findOne({email});
     if(adminAlumni.role!=="admin"){
       throw new Error("You are not an admin");
     }

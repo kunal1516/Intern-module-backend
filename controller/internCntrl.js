@@ -298,6 +298,70 @@ const dashboard = asyncHandler( async (req, res) => {
     }
 });
 
+// token authorization
+const getintern = asyncHandler(  async (req, res) => {
+
+    try {
+      const internId = req.intern.id;
+      const intern = await Intern.findById(internId).select("-password")
+      res.send(intern)
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  })
+
+  // upload profile photo
+  /*const uploadProfile = asyncHandler(async (req, res) => {
+    try {
+        if (!req.file) {
+            res.status(400).json({ error: 'No file selected!' });
+        } else {
+            res.status(200).json({ filename: req.file.filename });
+        }
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+*/  
+
+const uploadProfilePhoto = asyncHandler(async (req, res) => {
+    try {
+        
+       const url= req.protocol + "://" + req.get("host")
+        // Creating a new instance of the News model with the provided data
+        const newUpload = new Intern({
+           
+            image: url+ "/public/" + req.file.filename,
+       
+    })
+        //Saving the new news to the database
+        const finalUpload = await newUpload.save();
+        console.log('Image Data:', req.file);
+
+        // Sending a successful response with the newly created news details
+        res.status(200).json({
+            success: true,
+            message: "Profile photo added successfully",
+            news: finalNews,
+        });
+    } catch (error) {
+        // Handling errors
+        if (req.file && fs.existsSync(req.file.path)) {
+            // Deleting the uploaded file if an error occurs
+            fs.unlinkSync(req.file.path);
+        }
+
+        console.error(error.message);
+
+        // Sending an error response
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+});
+
 module.exports = {
     signUp,
     login,
@@ -311,5 +375,7 @@ module.exports = {
     resetpassword,
     resetnewpassword,
     logout,
-    dashboard
+    dashboard,
+    getintern,
+    uploadProfilePhoto
 }
