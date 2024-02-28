@@ -298,6 +298,7 @@ const dashboard = asyncHandler( async (req, res) => {
     }
 });
 
+<<<<<<< Updated upstream
 //Search Query
 const search=asyncHandler( async (req, res) => {
     const internIdFromToken = req.internId;
@@ -388,6 +389,8 @@ const uploadProfilePhoto = asyncHandler(async (req, res) => {
         });
     }
 });
+=======
+>>>>>>> Stashed changes
 
 module.exports = {
     signUp,

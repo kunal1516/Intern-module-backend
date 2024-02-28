@@ -15,7 +15,6 @@ const createNews = asyncHandler(async (req, res) => {
             description,
             date,
             image: url+ "/public/" + req.file.filename,
-       
     })
         //Saving the new news to the database
         const finalNews = await newNews.save();

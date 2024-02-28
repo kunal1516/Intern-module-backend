@@ -1,8 +1,14 @@
 const express = require('express')
 const router = express.Router()
+<<<<<<< Updated upstream
 const {uploadProfile } = require('../middleware/uploadImages}')
 const { signUp, login, getAll, gets, updateIntern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword,logout, dashboard, getintern, uploadProfilePhoto, search} = require('../controller/internCntrl')
 const {internMiddleware,isAdmin}=require('../middleware/internMiddleware')
+=======
+
+const { signUp, login, getAll, gets, updateIntern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword,logout, dashboard, search} = require('../controller/internCntrl')
+//const {internMiddleware,isAdmin}=require('../middleware/internMiddleware')
+>>>>>>> Stashed changes
 
 router.post('/signUp',signUp)
 
