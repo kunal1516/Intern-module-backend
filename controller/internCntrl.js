@@ -325,43 +325,6 @@ const getintern = asyncHandler(  async (req, res) => {
 });
   
 
-/*const uploadProfilePhoto = asyncHandler(async (req, res) => {
-    try {
-        
-       const url= req.protocol + "://" + req.get("host")
-        // Creating a new instance of the News model with the provided data
-        const newUpload = new Intern({
-           
-            image: url+ "/public/" + req.file.filename,
-       
-    })
-        //Saving the new news to the database
-        const finalUpload = await newUpload.save();
-        console.log('Image Data:', req.file);
-
-        // Sending a successful response with the newly created news details
-        res.status(200).json({
-            success: true,
-            message: "Profile photo added successfully",
-            news: finalNews,
-        });
-    } catch (error) {
-        // Handling errors
-        if (req.file && fs.existsSync(req.file.path)) {
-            // Deleting the uploaded file if an error occurs
-            fs.unlinkSync(req.file.path);
-        }
-
-        console.error(error.message);
-
-        // Sending an error response
-        res.status(500).json({
-            success: false,
-            message: "Internal server error",
-        });
-    }
-});
-*/
 module.exports = {
     signUp,
     login,
