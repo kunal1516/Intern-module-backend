@@ -1,6 +1,7 @@
 const multer = require("multer");
 const { v4 } = require("uuid");
 const { maxImageSize } = require("../config");
+const path = require('path')
 
 //for newsCntrl
 

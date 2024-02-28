@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {uploadProfile } = require('../middleware/uploadImages}')
+const {uploadProfile} = require('../middleware/uploadImages')
 const { signUp, login, getAll, gets, updateIntern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword,logout, dashboard, getintern, uploadProfilePhoto} = require('../controller/internCntrl')
 const {internMiddleware,isAdmin}=require('../middleware/internMiddleware')
 
@@ -12,7 +12,7 @@ router.post('/forgot-password-token',forgotpassword)
 
 router.post('/logout',logout)
 
-router.post ( '/upload' , uploadProfile)
+router.post ( '/upload' ,uploadProfile, uploadProfilePhoto)
 
 router.get('/get' ,  getAll)
 

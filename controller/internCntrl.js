@@ -312,7 +312,7 @@ const getintern = asyncHandler(  async (req, res) => {
   })
 
   // upload profile photo
-  /*const uploadProfile = asyncHandler(async (req, res) => {
+  const uploadProfilePhoto = asyncHandler(async (req, res) => {
     try {
         if (!req.file) {
             res.status(400).json({ error: 'No file selected!' });
@@ -323,9 +323,9 @@ const getintern = asyncHandler(  async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 });
-*/  
+  
 
-const uploadProfilePhoto = asyncHandler(async (req, res) => {
+/*const uploadProfilePhoto = asyncHandler(async (req, res) => {
     try {
         
        const url= req.protocol + "://" + req.get("host")
@@ -361,7 +361,7 @@ const uploadProfilePhoto = asyncHandler(async (req, res) => {
         });
     }
 });
-
+*/
 module.exports = {
     signUp,
     login,
