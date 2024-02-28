@@ -75,14 +75,10 @@ const saveTeamImage = multer ( {
   fileFilter : ( req, file, cb) => {
     if( 
       file.mimetype === "image/png" ||
-      file.mimetype === "image/jprg" || 
-<<<<<<< Updated upstream
-      file.mimetype === "image/jpeg" 
-      
-=======
+      file.mimetype === "image/jpg" || 
       file.mimetype === "image/jpeg" ||
+      
       file.mimetype === "application/pdf"
->>>>>>> Stashed changes
     ) { cb ( null, true)}
     else {
       cb( null , false);
