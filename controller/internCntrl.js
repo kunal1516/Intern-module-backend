@@ -298,6 +298,33 @@ const dashboard = asyncHandler( async (req, res) => {
     }
 });
 
+//Search Query
+const search=asyncHandler( async (req, res) => {
+    const internIdFromToken = req.internId;
+  
+    try {
+      const intern = await Intern.findById(internIdFromToken).select('fullName collegeName');
+  
+      if (!intern) {
+        return res.status(404).json({ error: "Intern not found" });
+      }
+  
+      const { fullName, collegeName } = intern;
+  
+      const matchingInterns = await Intern.find({
+        $and: [
+          { $or: [{ fullName }, { collegeName }] },
+          { _id: { $ne: internIdFromToken } }
+        ]
+      }).select('fullName collegeName');
+  
+      res.status(200).json(matchingInterns);
+    } catch (error) {
+      console.error("Error fetching matching interns:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
 // token authorization
 const getintern = asyncHandler(  async (req, res) => {
 
@@ -376,6 +403,7 @@ module.exports = {
     resetnewpassword,
     logout,
     dashboard,
+    search,
     getintern,
     uploadProfilePhoto
 }
