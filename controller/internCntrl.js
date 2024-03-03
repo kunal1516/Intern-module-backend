@@ -286,6 +286,73 @@ const logout = asyncHandler(async (req, res) => {
   }
 });
 
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalInternCount = await Intern.countDocuments();
+        res.json({ count: totalInternCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+//Search Query
+const search=asyncHandler( async (req, res) => {
+    const internIdFromToken = req.id;
+  
+    try {
+      const intern = await Intern.findById(internIdFromToken).select('fullName  collegeName');
+  
+      if (!intern) {
+        return res.status(404).json({ error: "Intern not found" });
+      }
+  
+      const { fullName, collegeName } = intern;
+  
+      const matchingInterns = await Intern.find({
+        $and: [
+          { $or: [{ fullName }, { collegeName }] },
+          { _id: { $ne: internIdFromToken } }
+        ]
+      }).select('fullName collegeName');
+  
+      res.status(200).json(matchingInterns);
+    } catch (error) {
+      console.error("Error fetching matching interns:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
+// token authorization
+const getintern = asyncHandler(  async (req, res) => {
+
+    try {
+      const internId = req.intern.id;
+      const intern = await Intern.findById(internId).select("-password")
+      res.send(intern)
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  })
+
+  // upload profile photo
+const uploadProfilePhoto = asyncHandler(async (req, res) => {
+    try {
+        if (!req.file) {
+            res.status(400).json({ error: 'No file selected!' });
+        } else {
+            res.status(200).json({ filename: req.file.filename });
+        }
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+
+
 module.exports = {
     signUp,
     login,
@@ -298,5 +365,9 @@ module.exports = {
     forgotpassword,
     resetpassword,
     resetnewpassword,
-    logout   
+    logout,
+    dashboard,
+    search,
+    getintern,
+    uploadProfilePhoto
 }

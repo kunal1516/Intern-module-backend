@@ -132,7 +132,6 @@ const updateAlumni = asyncHandler(async(req,res)=>{
     }
 });
 
-//dashboard
 const handleRefreshToken = asyncHandler(async (req, res) => {
     try {
         const { refreshToken } = req.cookies;
@@ -162,18 +161,6 @@ const handleRefreshToken = asyncHandler(async (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 });
-
-const dashboard = asyncHandler( async (req, res) => {
-    try {
-        const totalSignUpsCount = await Alumni.countDocuments();
-        res.json({ count: totalSignUpsCount });
-    } catch (error) {
-        // Handle errors
-        console.error("Error getting sign-ups count:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
-});
-
 
 const updatePassword = asyncHandler (async (req, res) => {
    
@@ -298,7 +285,31 @@ const forgotpassword= asyncHandler(async(req,res)=>{
 });
 
 
+//dashboard
+const dashboard = asyncHandler( async (req, res) => {
+    try {
+        const totalSignUpsCount = await Alumni.countDocuments();
+        res.json({ count: totalSignUpsCount });
+    } catch (error) {
+        // Handle errors
+        console.error("Error getting sign-ups count:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 
-module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotpassword , resetpassword , resetnewpassword,dashboard} 
+// token authorization
+const getalumni = asyncHandler(  async (req, res) => {
+
+    try {
+      const alumniId = req.alumni.id;
+      const alumni = await Alumni.findById(alumniId).select("-password")
+      res.send(alumni)
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  })
+
+module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotpassword , resetpassword , resetnewpassword,dashboard, getalumni} 
 
