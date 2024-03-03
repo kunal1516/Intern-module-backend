@@ -17,6 +17,7 @@ const teamRouter = require('./router/teamRoute')
 const careerRouter=require('./router/careerRoute')
 const contactRouter=require('./router/contactRouter')
 const AcheiveRouter=require('./router/acheiveRoute')
+const superAdminRouter = require('./router/superAdminRoute')
 
 const { notFound, errorHandler} = require('./middleware/errorhandler')
 
@@ -55,6 +56,8 @@ app.use('/api/team' , teamRouter)
 app.use('/api/career' , careerRouter)
 app.use('/api/contact' , contactRouter)
 app.use('/api/acheive' , AcheiveRouter)
+app.use('/api/superAdmin', superAdminRouter)
+
 
 //Swagger setup
 const swaggerOptions = {

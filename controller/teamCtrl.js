@@ -11,7 +11,7 @@ try{
         name,
         position,
         description,
-        image:url+"/public"+req.file.filename,
+        image:url +"/public/"+req.file.filename,
     })
     const finalTeam=await newTeam.save();
     res.status(200).json({
