@@ -1,6 +1,6 @@
 const express = require('express')
 const { addAcheive, updateAchieve, getAcheievement, getallAcheivement, deleteAcheivement, dashboard } = require('../controller/achieve')
-const { saveAcheiveImage } = require('../middleware/uploadImages')
+const { saveAcheiveImage } = require('../middleware/uploadImages');
 const router = express.Router()
 
 

@@ -18,7 +18,7 @@ router.get('/',getAllAlumni);
 ///http://localhost:4000/api/alumni/signups/count
 router.get('/signups/count',dashboard);
 router.delete('/:id',deleteAlumni);
-router.put('/:id',updateAlumni);
+router.put('/:id',alumniMiddleware,updateAlumni);
 router.put('/password', updatePassword);
 router.put('/refresh', handleRefreshToken);
 router.get('/reset-password', resetpassword);
