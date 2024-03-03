@@ -310,6 +310,22 @@ const getalumni = asyncHandler(  async (req, res) => {
       res.status(500).send("Internal Server Error");
     }
   })
+ 
 
-module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotpassword , resetpassword , resetnewpassword,dashboard, getalumni} 
+  // upload profile photo
+
+  const uploadProfilePhoto = asyncHandler (async( req, res) => {
+   try {
+    if(!req.file)
+    {
+        res.json("no file selected")
+    }else {
+        res.json(req.file.filename)
+    }
+   } catch (error) {
+    res.json(err.message)
+   }
+  })
+module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotpassword , resetpassword , resetnewpassword,dashboard, getalumni,
+uploadProfilePhoto} 
 

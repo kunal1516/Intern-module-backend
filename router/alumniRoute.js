@@ -1,14 +1,16 @@
 const express= require('express');
-const { signUp, login,handleRefreshToken, getAlumni,updatePassword, getAllAlumni, deleteAlumni, updateAlumni,logout,forgotpassword,resetnewpassword,dashboard, getalumni } = require('../controller/alumniCtrl');
+const { signUp, login,handleRefreshToken, getAlumni,updatePassword, getAllAlumni, deleteAlumni, updateAlumni,logout,forgotpassword,resetnewpassword,dashboard, getalumni, uploadProfilePhoto } = require('../controller/alumniCtrl');
 // const express = require('express');
 // const { signUp, login, getAlumni, getAllAlumni, deleteAlumni, updateAlumni, updatePassword, handleRefreshToken, logout, forgotpassword, resetnewpassword } = require('../controller/alumniCtrl');
 const { resetpassword } = require('../controller/internCntrl');
 const router = express.Router();
-const {alumniMiddleware} = require('../middleware/alumniMiddleware')
+const {alumniMiddleware} = require('../middleware/alumniMiddleware');
+const { uploadProfile } = require('../middleware/uploadImages');
 
 
 
 router.post('/signup',signUp);
+router.post('/upload' , uploadProfile, uploadProfilePhoto)
 router.post('/login',login);
 router.post('/logout',logout);
 router.post('/forgot-password-token',forgotpassword);
