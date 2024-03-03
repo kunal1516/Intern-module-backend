@@ -300,10 +300,10 @@ const dashboard = asyncHandler( async (req, res) => {
 
 //Search Query
 const search=asyncHandler( async (req, res) => {
-    const internIdFromToken = req.internId;
+    const internIdFromToken = req.id;
   
     try {
-      const intern = await Intern.findById(internIdFromToken).select('fullName collegeName');
+      const intern = await Intern.findById(internIdFromToken).select('fullName  collegeName');
   
       if (!intern) {
         return res.status(404).json({ error: "Intern not found" });
@@ -339,7 +339,7 @@ const getintern = asyncHandler(  async (req, res) => {
   })
 
   // upload profile photo
-  /*const uploadProfile = asyncHandler(async (req, res) => {
+const uploadProfilePhoto = asyncHandler(async (req, res) => {
     try {
         if (!req.file) {
             res.status(400).json({ error: 'No file selected!' });
@@ -350,44 +350,8 @@ const getintern = asyncHandler(  async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 });
-*/  
 
-const uploadProfilePhoto = asyncHandler(async (req, res) => {
-    try {
-        
-       const url= req.protocol + "://" + req.get("host")
-        // Creating a new instance of the News model with the provided data
-        const newUpload = new Intern({
-           
-            image: url+ "/public/" + req.file.filename,
-       
-    })
-        //Saving the new news to the database
-        const finalUpload = await newUpload.save();
-        console.log('Image Data:', req.file);
 
-        // Sending a successful response with the newly created news details
-        res.status(200).json({
-            success: true,
-            message: "Profile photo added successfully",
-            news: finalNews,
-        });
-    } catch (error) {
-        // Handling errors
-        if (req.file && fs.existsSync(req.file.path)) {
-            // Deleting the uploaded file if an error occurs
-            fs.unlinkSync(req.file.path);
-        }
-
-        console.error(error.message);
-
-        // Sending an error response
-        res.status(500).json({
-            success: false,
-            message: "Internal server error",
-        });
-    }
-});
 
 module.exports = {
     signUp,
