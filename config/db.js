@@ -15,8 +15,6 @@ mongoose.set("strictQuery", true);
 
 const mongoURI = "mongodb://127.0.0.1:27017/intern";
 
-
-
 async function connectToMongo() {
   console.log("Connecting to Database ");
   try {
@@ -24,9 +22,9 @@ async function connectToMongo() {
     console.log("Connected to Database: " + x.connections[0].name);
     return true;
   } catch (e) {
-     console.log(e);
+    console.log(e);
     return false;
   }
 }
 
-module.exports=connectToMongo
+module.exports = connectToMongo;
