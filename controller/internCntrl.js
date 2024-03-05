@@ -55,10 +55,10 @@ const login = asyncHandler ( async ( req, res) => {
 
 // get all intern
 
-const getAll = asyncHandler (async (req, res) => {
+const getAllIntern = asyncHandler (async (req, res) => {
     try {
         const get = await Intern.find()
-        res.json(get)
+        res.send(get)
     } catch (error) {
         throw new Error(error)
     }
@@ -66,11 +66,11 @@ const getAll = asyncHandler (async (req, res) => {
 
 //get intern by id
 
-const gets = asyncHandler ( async ( req, res) => {
+const getIntern = asyncHandler ( async ( req, res) => {
     const {id} = req.params
     try {
         const getI = await Intern.findById(id)
-        res.json(getI)
+        res.send(getI)
     } catch (error) {
         throw new Error(error)
     }
@@ -290,7 +290,7 @@ const logout = asyncHandler(async (req, res) => {
 const dashboard = asyncHandler( async (req, res) => {
     try {
         const totalInternCount = await Intern.countDocuments();
-        res.json({ count: totalInternCount });
+        res.send({ count: totalInternCount });
     } catch (error) {
         // Handle errors
         console.error("Error getting sign-ups count:", error);
@@ -356,8 +356,8 @@ const uploadProfilePhoto = asyncHandler(async (req, res) => {
 module.exports = {
     signUp,
     login,
-    getAll,
-    gets,
+    getAllIntern,
+    getIntern,
     updateIntern,
     deleteIntern,
     handleRefreshToken,

@@ -99,7 +99,7 @@ const deleteAcheivement = asyncHandler(async (req, res) => {
 const dashboard = asyncHandler(async (req, res) => {
   try {
     const totalAcheiveCount = await Acheive.countDocuments();
-    res.json({ count: totalAcheiveCount });
+    res.send({ count: totalAcheiveCount });
   } catch (error) {
     // Handle errors
     console.error("Error getting sign-ups count:", error);

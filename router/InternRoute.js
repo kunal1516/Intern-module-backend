@@ -3,7 +3,7 @@ const router = express.Router()
 const {uploadProfile } = require('../middleware/uploadImages')
 const {internMiddleware,isAdmin}=require('../middleware/internMiddleware')
 
-const { signUp, login, getAll, gets, updateIntern,getintern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword,logout, dashboard, search, uploadProfilePhoto} = require('../controller/internCntrl')
+const { signUp, login, getAllIntern, getIntern, updateIntern,getintern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword,logout, dashboard, search, uploadProfilePhoto} = require('../controller/internCntrl')
 //const {internMiddleware,isAdmin}=require('../middleware/internMiddleware')
 
 router.post('/signUp',signUp)
@@ -16,9 +16,9 @@ router.post('/logout',logout)
 
 router.post ( '/upload' , uploadProfile, uploadProfilePhoto)
 
-router.get('/get' ,  getAll)
+router.get('/get' , getAllIntern)
 
-router.get('/getintern', internMiddleware  , getintern , gets )
+router.get('/getintern', internMiddleware  , getintern , getIntern )
 
 router.get('/reset-password',resetpassword)
 
@@ -170,7 +170,7 @@ router.post('/login', login);
  *       200:
  *         description: Successfully retrieved all intern
  */
-router.get('/', getAll);
+router.get('/', getAllIntern);
 
 /**
  * @swagger
@@ -215,7 +215,7 @@ router.post('/logout', logout);
  *       200:
  *         description: Successfully retrieved the intern
  */
-router.get('/:id', gets);
+router.get('/:id', getIntern);
 
 /**
  * @swagger

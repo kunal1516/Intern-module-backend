@@ -45,7 +45,7 @@ const updateContact = asyncHandler(async (req, res) => {
 const getallContact = asyncHandler(async (req, res) => {
   try {
     const gets = await Contact.find();
-    res.json(gets);
+    res.send(gets);
   } catch (error) {
     throw new Error(error);
   }
@@ -55,7 +55,7 @@ const getContact = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const get = await Contact.findById(id);
-    res.json(get);
+    res.send(get);
   } catch (error) {
     throw new Error(error);
   }
@@ -81,7 +81,7 @@ const deleteContact = asyncHandler(async (req, res) => {
 const dashboard = asyncHandler(async (req, res) => {
   try {
     const totalContactCount = await Contact.countDocuments();
-    res.json({ count: totalContactCount });
+    res.send({ count: totalContactCount });
   } catch (error) {
     // Handle errors
     console.error("Error getting sign-ups count:", error);

@@ -57,7 +57,11 @@ var internSchema = new mongoose.Schema({
             require : true
         }
        
-})
+},
+{
+timestamps:true,
+}
+);
 
 
 internSchema.pre('save', async function (next){

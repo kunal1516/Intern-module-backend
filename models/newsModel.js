@@ -19,7 +19,11 @@ var newsSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-});
+},
+{
+  timestamps:true,
+}
+);
 
 //Export the model
 module.exports = mongoose.model("News", newsSchema);

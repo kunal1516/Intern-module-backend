@@ -36,17 +36,17 @@ const getTeam=asyncHandler(async(req,res)=>{
     const {id}=req.params
     try {
         const get=await Team.findById(id)
-        res.json(get)
+        res.send(get)
     } catch (error) {
         throw new Error(error)
     }
 })
 
 //getall
-const getAll=asyncHandler(async(req,res)=>{
+const getAllTeam=asyncHandler(async(req,res)=>{
     try {
         const get=await Team.find()
-        res.json(get)
+        res.send(get)
     } catch (error) {
         throw new Error(error)
     }
@@ -119,7 +119,7 @@ const updateTeam = asyncHandler(async (req, res) => {
 const dashboard = asyncHandler( async (req, res) => {
     try {
         const totalTeamCount = await Team.countDocuments();
-        res.json({ count: totalTeamCount });
+        res.send({ count: totalTeamCount });
     } catch (error) {
         // Handle errors
         console.error("Error getting sign-ups count:", error);
@@ -130,7 +130,7 @@ const dashboard = asyncHandler( async (req, res) => {
 module.exports={
     addTeam,
     getTeam,
-    getAll,
+    getAllTeam,
     deleteTeam,
     updateTeam,
     dashboard

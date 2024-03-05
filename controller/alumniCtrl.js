@@ -65,7 +65,7 @@ const getAlumni = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const getAlumni = await Alumni.findById(id);
-    res.json({
+    res.send({
       getAlumni,
     });
   } catch (error) {
@@ -78,7 +78,7 @@ const getAlumni = asyncHandler(async (req, res) => {
 const getAllAlumni = asyncHandler(async (req, res) => {
   try {
     const getAlumni = await Alumni.find();
-    res.json(getAlumni);
+    res.send(getAlumni);
   } catch (error) {
     throw new Error(error);
   }
