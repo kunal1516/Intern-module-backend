@@ -7,15 +7,14 @@ const mongoose = require('mongoose'); // Erase if already required
 var gallarySchema = new mongoose.Schema({
     title:{
         type:String,
-        required:true,
     },
-    photo:{
-        type:image,
+    image:{
+        type:String,
         required:true,
     },
     date:{
-        type:date,
-        required:true,
+        type:Date,
+        default:Date.now,
     },
 },
 {

@@ -17,6 +17,7 @@ const careerRouter = require("./router/careerRoute");
 const contactRouter = require("./router/contactRouter");
 const AcheiveRouter = require("./router/acheiveRoute");
 const superAdminRouter = require("./router/superAdminRoute");
+const galleryRouter = require("./router/gallaryRoute")
 
 const { notFound, errorHandler } = require("./middleware/errorhandler");
 
@@ -52,6 +53,7 @@ app.use("/api/career", careerRouter);
 app.use("/api/contact", contactRouter);
 app.use("/api/acheive", AcheiveRouter);
 app.use("/api/superAdmin", superAdminRouter);
+app.use("/api/gallery", galleryRouter);
 
 //Swagger setup
 const swaggerOptions = {
