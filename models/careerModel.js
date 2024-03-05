@@ -21,7 +21,11 @@ var careerSchema = new mongoose.Schema({
     description:{
         type:String,
     },
-});
+},
+{
+    timestamps:true,
+}
+);
 
 //Export the model
 module.exports = mongoose.model('Career', careerSchema);

@@ -48,7 +48,7 @@ const createNews = asyncHandler(async (req, res) => {
 const getsNews = asyncHandler(async (req, res) => {
     try {
         const gets = await News.find()
-        res.json(gets)
+        res.send(gets)
     } catch (error) {
         throw new Error(error)
     }
@@ -60,7 +60,7 @@ const getNews  = asyncHandler(async ( req, res) => {
     const { id } = req.params
     try {
         const get = await News.findById(id)
-        res.json(get)
+        res.send(get)
     } catch (error) {
         throw new Error(error)
     }
@@ -134,7 +134,7 @@ const updateNews = asyncHandler(async (req, res) => {
 const dashboard = asyncHandler( async (req, res) => {
     try {
         const totalNewsCount = await News.countDocuments();
-        res.json({ count: totalNewsCount });
+        res.send({ count: totalNewsCount });
     } catch (error) {
         // Handle errors
         console.error("Error getting sign-ups count:", error);

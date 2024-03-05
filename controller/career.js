@@ -38,7 +38,7 @@ const updateCareer = asyncHandler (async (req, res) => {
 
 // get all carrers
 
-const getAll = asyncHandler (async (req, res) => {
+const getAllCareer = asyncHandler (async (req, res) => {
     try {
         const gets = await Career.find()
         res.json(gets)
@@ -87,7 +87,7 @@ const dashboard = asyncHandler( async (req, res) => {
 module.exports = {
 addCareer,
 updateCareer,
-getAll,
+getAllCareer,
 getCareer,
 deleteCareer,
 dashboard

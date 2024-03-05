@@ -51,10 +51,10 @@ const login =  async ( req, res) => {
 
 // get all superAdmin
 
-const getAll = asyncHandler (async (req, res) => {
+const getAllSuperAdmin = asyncHandler (async (req, res) => {
     try {
         const get = await SuperAdmin.find()
-        res.json(get)
+        res.send(get)
     } catch (error) {
         throw new Error(error)
     }
@@ -62,11 +62,11 @@ const getAll = asyncHandler (async (req, res) => {
 
 //get superAdmin by id
 
-const gets = asyncHandler ( async ( req, res) => {
+const getSuperAdmin = asyncHandler ( async ( req, res) => {
     const {id} = req.params
     try {
         const getI = await SuperAdmin.findById(id)
-        res.json(getI)
+        res.send(getI)
     } catch (error) {
         throw new Error(error)
     }
@@ -182,8 +182,8 @@ const updatePassword = asyncHandler (async (req, res) => {
 module.exports = {
     signUp,
     login,
-    getAll,
-    gets,
+    getAllSuperAdmin,
+    getSuperAdmin,
     updateSuperAdmin,
     deleteSuperAdmin,
     handleRefreshToken,

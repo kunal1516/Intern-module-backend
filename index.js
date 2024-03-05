@@ -1,93 +1,87 @@
-
-const dotenv = require('dotenv').config();
-const express =  require('express');
+const dotenv = require("dotenv").config();
+const express = require("express");
 //const router = express.Router()
-const connectToMongo=require('./config/db');
-const app=express();
-const bodyParser = require('body-parser');
+const connectToMongo = require("./config/db");
+const app = express();
+const bodyParser = require("body-parser");
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require("swagger-ui-express");
+const swaggerJSDoc = require("swagger-jsdoc");
 
-const internRouter = require('./router/InternRoute')
-const alumniRouter = require('./router/alumniRoute')
-const newsRouter = require('./router/newsRouter')
-const eventRouter = require('./router/eventRoute')
-const teamRouter = require('./router/teamRoute')
-const careerRouter=require('./router/careerRoute')
-const contactRouter=require('./router/contactRouter')
-const AcheiveRouter=require('./router/acheiveRoute')
-const superAdminRouter = require('./router/superAdminRoute')
+const internRouter = require("./router/InternRoute");
+const alumniRouter = require("./router/alumniRoute");
+const newsRouter = require("./router/newsRouter");
+const eventRouter = require("./router/eventRoute");
+const teamRouter = require("./router/teamRoute");
+const careerRouter = require("./router/careerRoute");
+const contactRouter = require("./router/contactRouter");
+const AcheiveRouter = require("./router/acheiveRoute");
+const superAdminRouter = require("./router/superAdminRoute");
 
-const { notFound, errorHandler} = require('./middleware/errorhandler')
+const { notFound, errorHandler } = require("./middleware/errorhandler");
 
 const port = process.env.PORT || 4000;
 
-const cookieParser = require ( 'cookie-parser')
-const morgan = require('morgan')
-const path = require("path")
+const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
+const path = require("path");
 // Middleware
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use("/public",express.static(path.join(__dirname,"public")))
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 connectToMongo();
 
-app.use(morgan('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended : false}))
-app.use(cookieParser())
+app.use(morgan("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome To the Intern Module</h1>");
+});
 
-
-
-app.get("/",(req,res)=>{
-    res.send("<h1>hiiiiiiiiiiiiiiiiiiiiiiii</h1>");
-})
-
-
-app.use('/api/intern', internRouter)
-app.use('/api/alumni' , alumniRouter)
-app.use('/api/news' , newsRouter)
-app.use('/api/event' , eventRouter)
-app.use('/api/team' , teamRouter)
-app.use('/api/career' , careerRouter)
-app.use('/api/contact' , contactRouter)
-app.use('/api/acheive' , AcheiveRouter)
-app.use('/api/superAdmin', superAdminRouter)
-
+app.use("/api/intern", internRouter);
+app.use("/api/alumni", alumniRouter);
+app.use("/api/news", newsRouter);
+app.use("/api/event", eventRouter);
+app.use("/api/team", teamRouter);
+app.use("/api/career", careerRouter);
+app.use("/api/contact", contactRouter);
+app.use("/api/acheive", AcheiveRouter);
+app.use("/api/superAdmin", superAdminRouter);
 
 //Swagger setup
 const swaggerOptions = {
-    definition: {
-      openapi: '3.0.0',
-      info: {
-        title: 'Node JS API Project for mongodb',
-        version: '1.0.0',
-      },
-      servers: [
-        {
-          url: `http://localhost:${port}`,
-        },
-      ],
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Node JS API Project for mongodb",
+      version: "1.0.0",
     },
-    apis: [
-      './router/alumniRoute.js',
-      './router/internRoute.js',
-      './router/eventRoute.js',
-      './router/newsRouter.js',
+    servers: [
+      {
+        url: `http://localhost:${port}`,
+      },
     ],
-  };
+  },
+  apis: [
+    "./router/alumniRoute.js",
+    "./router/internRoute.js",
+    "./router/eventRoute.js",
+    "./router/newsRouter.js",
+  ],
+};
 //   ii
-  const swaggerSpec = swaggerJSDoc(swaggerOptions);
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/api/contact',contactRouter)
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api/contact", contactRouter);
 
-app.use(notFound)
-app.use(errorHandler)
+app.use(notFound);
+app.use(errorHandler);
 
-app.listen(port,()=>{
-    console.log(`Server is running at port:${port}`);
-})
+app.listen(port, () => {
+  console.log(`Server is running at port:${port}`);
+});
