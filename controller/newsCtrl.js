@@ -142,11 +142,31 @@ const dashboard = asyncHandler( async (req, res) => {
     }
 });
 
+const pagination = asyncHandler(async (req,res)=> {
+    try{
+    const page = req.query.page;
+    const limit = req.query.limit;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+    if (req.query.page) {
+      const newsCount = await News.countDocuments();
+      if (skip >= newsCount) throw new Error("This Page does not exists");
+    }
+    console.log(page, limit, skip);
+    
+    const news = await query;
+    res.json(news);
+    } catch (err){
+      res.status(500).json({message:err.message});
+    }
+    });
+
 module.exports = {
     createNews,
     getsNews,
     getNews,
     deleteNews,
     updateNews,
-    dashboard
+    dashboard,
+    pagination
 }

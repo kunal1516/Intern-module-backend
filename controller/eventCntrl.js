@@ -116,6 +116,25 @@ const dashboard = asyncHandler(async (req, res) => {
   }
 });
 
+const pagination = asyncHandler(async (req,res)=> {
+  try{
+  const page = req.query.page;
+  const limit = req.query.limit;
+  const skip = (page - 1) * limit;
+  query = query.skip(skip).limit(limit);
+  if (req.query.page) {
+    const eventCount = await Event.countDocuments();
+    if (skip >= eventCount) throw new Error("This Page does not exists");
+  }
+  console.log(page, limit, skip);
+  
+  const event = await query;
+  res.json(event);
+  } catch (err){
+    res.status(500).json({message:err.message});
+  }
+  });
+
 module.exports = {
   addEvent,
   getEvent,
@@ -123,4 +142,5 @@ module.exports = {
   deleteEvent,
   updateEvent,
   dashboard,
+  pagination
 };

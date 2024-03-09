@@ -17,7 +17,7 @@ const careerRouter = require("./router/careerRoute");
 const contactRouter = require("./router/contactRouter");
 const AcheiveRouter = require("./router/acheiveRoute");
 const superAdminRouter = require("./router/superAdminRoute");
-const galleryRouter = require("./router/gallaryRoute")
+const galleryRouter = require("./router/galleryRoute")
 
 const { notFound, errorHandler } = require("./middleware/errorhandler");
 

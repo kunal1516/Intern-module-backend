@@ -89,6 +89,25 @@ const dashboard = asyncHandler(async (req, res) => {
   }
 });
 
+const pagination = asyncHandler(async (req,res)=> {
+  try{
+  const page = req.query.page;
+  const limit = req.query.limit;
+  const skip = (page - 1) * limit;
+  query = query.skip(skip).limit(limit);
+  if (req.query.page) {
+    const contactCount = await Contact.countDocuments();
+    if (skip >= contactCount) throw new Error("This Page does not exists");
+  }
+  console.log(page, limit, skip);
+  
+  const contact = await query;
+  res.json(contact);
+  } catch (err){
+    res.status(500).json({message:err.message});
+  }
+  });
+
 module.exports = {
   addContact,
   updateContact,
@@ -96,4 +115,5 @@ module.exports = {
   getallContact,
   deleteContact,
   dashboard,
+  pagination
 };

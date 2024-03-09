@@ -127,11 +127,31 @@ const dashboard = asyncHandler( async (req, res) => {
     }
 });
 
+const pagination = asyncHandler(async (req,res)=> {
+    try{
+    const page = req.query.page;
+    const limit = req.query.limit;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+    if (req.query.page) {
+      const teamCount = await Team.countDocuments();
+      if (skip >= teamCount) throw new Error("This Page does not exists");
+    }
+    console.log(page, limit, skip);
+    
+    const team = await query;
+    res.json(team);
+    } catch (err){
+      res.status(500).json({message:err.message});
+    }
+    });
+
 module.exports={
     addTeam,
     getTeam,
     getAllTeam,
     deleteTeam,
     updateTeam,
-    dashboard
+    dashboard,
+    pagination
 }

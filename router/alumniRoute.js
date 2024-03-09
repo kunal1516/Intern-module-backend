@@ -1,5 +1,5 @@
 const express= require('express');
-const { signUp, login,handleRefreshToken, getAlumni,updatePassword, getAllAlumni, deleteAlumni, updateAlumni,logout,forgotpassword,resetnewpassword,dashboard, getalumni } = require('../controller/alumniCtrl');
+const { signUp, login,handleRefreshToken, getAlumni,updatePassword, getAllAlumni, deleteAlumni, updateAlumni,logout,forgotpassword,resetnewpassword,dashboard, getalumni, pagination } = require('../controller/alumniCtrl');
 // const express = require('express');
 // const { signUp, login, getAlumni, getAllAlumni, deleteAlumni, updateAlumni, updatePassword, handleRefreshToken, logout, forgotpassword, resetnewpassword } = require('../controller/alumniCtrl');
 const { resetpassword } = require('../controller/internCntrl');
@@ -17,6 +17,7 @@ router.get('/getalumni',alumniMiddleware, getalumni, getAlumni);
 router.get('/',getAllAlumni);
 ///http://localhost:4000/api/alumni/signups/count
 router.get('/signups/count',dashboard);
+router.get('/page',pagination);
 router.delete('/:id',deleteAlumni);
 router.put('/:id',alumniMiddleware,updateAlumni);
 router.put('/password', updatePassword);
