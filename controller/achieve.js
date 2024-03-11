@@ -106,11 +106,33 @@ const dashboard = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-module.exports = {
+
+const pagination = asyncHandler(async (req,res)=> {
+  try{
+  const page = req.query.page;
+  const limit = req.query.limit;
+  const skip = (page - 1) * limit;
+  query = query.skip(skip).limit(limit);
+  if (req.query.page) {
+    const acheiveCount = await Acheive.countDocuments();
+    if (skip >= acheiveCount) throw new Error("This Page does not exists");
+  }
+  console.log(page, limit, skip);
+  
+  const acheive = await query;
+  res.json(acheive);
+  } catch (err){
+    res.status(500).json({message:err.message});
+  }
+  });
+
+
+  module.exports = {
   addAcheive,
   updateAchieve,
   getAcheievement,
   getallAcheivement,
   deleteAcheivement,
   dashboard,
+  pagination
 };

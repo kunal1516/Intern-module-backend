@@ -4,7 +4,7 @@
 const mongoose = require('mongoose'); // Erase if already required
 
 // Declare the Schema of the Mongo model
-var gallarySchema = new mongoose.Schema({
+var gallerySchema = new mongoose.Schema({
     title:{
         type:String,
     },
@@ -23,4 +23,4 @@ var gallarySchema = new mongoose.Schema({
 );
 
 //Export the model
-module.exports = mongoose.model('Gallary', gallarySchema);
+module.exports = mongoose.model('Gallery', gallerySchema);

@@ -1,4 +1,4 @@
-const Gallery = require('../models/gallaryModel')
+const Gallery = require('../models/galleryModel')
 const asyncHandler = require('express-async-handler')
 const fs=require('fs')
 
@@ -77,4 +77,23 @@ const deleteImages = asyncHandler(async(req,res)=>{
     }
 })
 
-module.exports ={ addImages, updateImages,getImages,getAllImages,deleteImages};
+const pagination = asyncHandler(async (req,res)=> {
+  try{
+  const page = req.query.page;
+  const limit = req.query.limit;
+  const skip = (page - 1) * limit;
+  query = query.skip(skip).limit(limit);
+  if (req.query.page) {
+    const galleryCount = await Gallery.countDocuments();
+    if (skip >= galleryCount) throw new Error("This Page does not exists");
+  }
+  console.log(page, limit, skip);
+  
+  const gallery = await query;
+  res.json(gallery);
+  } catch (err){
+    res.status(500).json({message:err.message});
+  }
+  });
+
+module.exports ={ addImages, updateImages,getImages,getAllImages,deleteImages,pagination};

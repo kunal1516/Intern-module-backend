@@ -325,6 +325,27 @@ const getalumni = asyncHandler(  async (req, res) => {
 module.exports= {signUp , login , getAlumni , getAllAlumni , deleteAlumni , updateAlumni , updatePassword , handleRefreshToken , logout , forgotpassword , resetpassword , resetnewpassword,dashboard, getalumni,
 uploadProfilePhoto} 
 
+//pagination
+
+const pagination = asyncHandler(async (req,res)=> {
+try{
+const page = req.query.page;
+const limit = req.query.limit;
+const skip = (page - 1) * limit;
+query = query.skip(skip).limit(limit);
+if (req.query.page) {
+  const alumniCount = await Alumni.countDocuments();
+  if (skip >= alumniCount) throw new Error("This Page does not exists");
+}
+console.log(page, limit, skip);
+
+const alumni = await query;
+res.json(alumni);
+} catch (err){
+  res.status(500).json({message:err.message});
+}
+});
+
 module.exports = {
   signUp,
   login,
@@ -340,4 +361,5 @@ module.exports = {
   resetnewpassword,
   dashboard,
   getalumni,
+  pagination
 };
