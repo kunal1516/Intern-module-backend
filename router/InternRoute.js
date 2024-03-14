@@ -3,7 +3,7 @@ const router = express.Router()
 const {uploadProfile } = require('../middleware/uploadImages')
 const {internMiddleware,isAdmin}=require('../middleware/internMiddleware')
 
-const { signUp, login, getAllIntern, getIntern, updateIntern,getintern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword,logout, dashboard, search, uploadProfilePhoto} = require('../controller/internCntrl')
+const { signUp, login, getAllIntern, getIntern, updateIntern,getintern, deleteIntern, updatePassword, handleRefreshToken,resetnewpassword, resetpassword, forgotpassword,logout, dashboard, search, uploadProfilePhoto, filteringInterns} = require('../controller/internCntrl')
 const { pagination } = require('../controller/alumniCtrl')
 //const {internMiddleware,isAdmin}=require('../middleware/internMiddleware')
 
@@ -28,6 +28,8 @@ router.get('/interns/count',dashboard)
 router.get('/page', pagination);
 
 router.get("/myNetwork",internMiddleware,search)
+
+router.get('/filter' , filteringInterns)
 
 router.put('/update/:id', updateIntern)
 

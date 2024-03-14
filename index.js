@@ -18,6 +18,7 @@ const contactRouter = require("./router/contactRouter");
 const AcheiveRouter = require("./router/acheiveRoute");
 const superAdminRouter = require("./router/superAdminRoute");
 const galleryRouter = require("./router/galleryRoute")
+const adminInternRouter = require('./router/adminInternRoute')
 
 const { notFound, errorHandler } = require("./middleware/errorhandler");
 
@@ -54,6 +55,7 @@ app.use("/api/contact", contactRouter);
 app.use("/api/acheive", AcheiveRouter);
 app.use("/api/superAdmin", superAdminRouter);
 app.use("/api/gallery", galleryRouter);
+app.use("/api/adminIntern" , adminInternRouter)
 
 //Swagger setup
 const swaggerOptions = {

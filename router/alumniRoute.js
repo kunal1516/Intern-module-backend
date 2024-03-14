@@ -1,5 +1,5 @@
 const express= require('express');
-const { signUp, login,handleRefreshToken, getAlumni,updatePassword, getAllAlumni, deleteAlumni, updateAlumni,logout,forgotpassword,resetnewpassword,dashboard, getalumni, pagination } = require('../controller/alumniCtrl');
+const { signUp, login,handleRefreshToken, getAlumni,updatePassword, getAllAlumni, deleteAlumni, updateAlumni,logout,forgotpassword,resetnewpassword,dashboard, getalumni, pagination, uploadProfilePhoto } = require('../controller/alumniCtrl');
 // const express = require('express');
 // const { signUp, login, getAlumni, getAllAlumni, deleteAlumni, updateAlumni, updatePassword, handleRefreshToken, logout, forgotpassword, resetnewpassword } = require('../controller/alumniCtrl');
 const { resetpassword } = require('../controller/internCntrl');

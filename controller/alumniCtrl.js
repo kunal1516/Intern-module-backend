@@ -360,6 +360,7 @@ module.exports = {
   resetpassword,
   resetnewpassword,
   dashboard,
+  uploadProfilePhoto,
   getalumni,
   pagination
 };

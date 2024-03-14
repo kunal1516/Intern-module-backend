@@ -351,6 +351,28 @@ const uploadProfilePhoto = asyncHandler(async (req, res) => {
     }
 });
 
+//filtering
+
+
+const filteringInterns = asyncHandler(async (req, res) => {
+  const { selectField } = req.query;
+
+  if (!selectField) {
+    return res.status(400).json({ error: 'field query parameter is required' });
+  }
+
+  try {
+    const filteredInterns = await Intern.find({ field: selectField });
+
+    res.json(filteredInterns);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+//pagination
+
 //pagination
 
 const pagination = asyncHandler(async (req,res)=> {
@@ -360,17 +382,18 @@ const pagination = asyncHandler(async (req,res)=> {
   const skip = (page - 1) * limit;
   query = query.skip(skip).limit(limit);
   if (req.query.page) {
-    const internCount = await Intern.countDocuments();
-    if (skip >= internCount) throw new Error("This Page does not exists");
+    const alumniCount = await Alumni.countDocuments();
+    if (skip >= alumniCount) throw new Error("This Page does not exists");
   }
   console.log(page, limit, skip);
   
-  const intern = await query;
-  res.json(intern);
+  const alumni = await query;
+  res.json(alumni);
   } catch (err){
     res.status(500).json({message:err.message});
   }
   });
+
 
 
 
@@ -391,5 +414,6 @@ module.exports = {
     search,
     getintern,
     uploadProfilePhoto,
+    filteringInterns,
     pagination
 }
